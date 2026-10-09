@@ -1,47 +1,102 @@
-<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>barrilete-kit — Los agentes vuelan. Vos tenés la rienda.</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>barrilete-kit</title>
 <meta name="description" content="Plantilla de repo para agentes de código: reglas, skills, docs y ADRs para llevar una idea del plan al PR, mientras vos aprobás el plan y mergeás.">
-<meta property="og:title" content="barrilete-kit">
-<meta property="og:description" content="Los agentes vuelan. Vos tenés la rienda.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
 <style>
-body{margin:0;background:#F6F7F9}
-a{color:#2B59FF}a:hover{color:#1E3FCC}
-code{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:0.92em;background:#E9ECF1;color:#14161A;padding:1px 6px;border-radius:6px}
+/* Layout: una columna de 1200px, secciones apiladas, grillas auto-fit; la rienda abre y cierra la página.
+   Tokens del design system barrilete-kit (tema único claro, a propósito). */
+:root{
+  color-scheme: light;
+  --surface:#f6f7f9; --surface-raised:#ffffff; --surface-muted:#e9ecf1;
+  --ink:#14161a; --ink-muted:#5a6270;
+  --accent:#2b59ff; --accent-hover:#1e3fcc; --accent-on-inverse:#8fb0ff;
+  --rienda:#b4122b; --nudo:#ffb020; --alert-on-inverse:#ff8a96; --hairline-inverse:#2a2f38;
+  --font-display:"Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--surface);color:var(--ink)}
+a{color:var(--accent)} a:hover{color:var(--accent-hover)}
+code{font-family:var(--font-mono);font-size:0.92em;background:var(--surface-muted);color:var(--ink);padding:1px 6px;border-radius:6px;overflow-wrap:anywhere}
 pre{margin:0}
-:focus-visible{outline:3px solid #2B59FF;outline-offset:3px}
+h1,h2,h3{text-wrap:balance}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 @keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .dron{animation:flotar 3s ease-in-out infinite}
-@media (prefers-reduced-motion: reduce){.dron{animation:none}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.dron{animation:none}}
+
+/* Motion: un solo momento fuerte en el hero (el dron flota atado a la rienda, las hélices giran,
+   los ojos te siguen, click para tirar) y la rienda como cable vivo: un pulso corre de plan a merge
+   y los dos nudos laten. Todo visible en reposo; se apaga con prefers-reduced-motion. */
+.in{animation:subir .7s cubic-bezier(.2,.7,.2,1) both}
+.in2{animation-delay:.12s}
+.chips li{animation:subir .5s cubic-bezier(.2,.7,.2,1) both;transition:background .2s,color .2s,transform .2s}
+.chips li:nth-child(2){animation-delay:.05s}.chips li:nth-child(3){animation-delay:.1s}.chips li:nth-child(4){animation-delay:.15s}.chips li:nth-child(5){animation-delay:.2s}.chips li:nth-child(6){animation-delay:.25s}.chips li:nth-child(7){animation-delay:.3s}
+.chips li:hover{background:var(--ink);color:var(--surface);transform:rotate(-2deg)}
+@keyframes subir{from{transform:translateY(18px);opacity:.001}to{transform:none;opacity:1}}
+.dron{animation:none;cursor:pointer;outline:none}
+.dron:focus-visible .rotor{fill:var(--accent)}
+.correa{stroke-dasharray:1;stroke-dashoffset:0;animation:dibujar 1.1s .35s cubic-bezier(.6,0,.2,1) both}
+@keyframes dibujar{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+.knot{transform-box:fill-box;transform-origin:center;animation:pop .45s cubic-bezier(.3,1.6,.5,1) both}
+.k1{animation-delay:.9s}.k2{animation-delay:1.15s}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.rotor{transform-box:fill-box;transform-origin:center;animation:rotor .16s linear infinite alternate}
+.r2{animation-delay:-.08s}
+@keyframes rotor{from{transform:scaleX(1)}to{transform:scaleX(.55)}}
+.wind{animation:viento 1.6s ease-in-out infinite}
+.wind+.wind{animation-delay:.8s}
+@keyframes viento{0%,100%{opacity:.08}50%{opacity:.35}}
+.blink,.bot .eye{transform-box:fill-box;transform-origin:center}
+.blink{animation:parpadeo 4.5s infinite}
+.bot .eye{animation:parpadeo 5s infinite}
+.card:nth-child(2n) .bot .eye{animation-delay:1.3s}.card:nth-child(3n) .bot .eye{animation-delay:2.6s}
+@keyframes parpadeo{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+.hilo{position:relative;overflow:hidden}
+.hilo::after{content:"";position:absolute;inset:0 auto 0 0;width:28%;background:linear-gradient(90deg,transparent,var(--nudo),transparent);transform:translateX(-120%);animation:corriente 2.8s cubic-bezier(.5,0,.5,1) infinite}
+.hilo~.hilo::after{animation-delay:.6s}
+@keyframes corriente{to{transform:translateX(420%)}}
+.pulse{animation:latido 2.8s ease-out infinite}
+@keyframes latido{0%{box-shadow:0 0 0 0 rgba(255,176,32,.6)}70%,100%{box-shadow:0 0 0 12px rgba(255,176,32,0)}}
+.card{transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s}
+.card:hover{transform:translateY(-4px);box-shadow:0 0 0 2px var(--ink),0 4px 0 2px var(--ink)}
+.card:hover .bot{animation:saltito .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes saltito{40%{transform:translateY(-6px) rotate(-4deg)}}
+.btn{transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 3px 0 0 var(--ink)}
+.btn:active{transform:translateY(1px);box-shadow:none}
+.reveal.visto{animation:subir .6s cubic-bezier(.2,.7,.2,1) backwards}
+.reveal.visto>*{animation:subir .6s cubic-bezier(.2,.7,.2,1) backwards}
+.reveal.visto>*:nth-child(2){animation-delay:.06s}.reveal.visto>*:nth-child(3){animation-delay:.12s}.reveal.visto>*:nth-child(4){animation-delay:.18s}.reveal.visto>*:nth-child(5){animation-delay:.24s}.reveal.visto>*:nth-child(6){animation-delay:.3s}.reveal.visto>*:nth-child(n+7){animation-delay:.36s}
+#progreso{position:fixed;left:0;top:env(safe-area-inset-top,0px);height:4px;width:100%;background:var(--rienda);border-bottom:2px solid var(--ink);transform-origin:left;transform:scaleX(0);z-index:10;pointer-events:none}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .hilo::after{display:none}
+}
 </style>
-<style>html{scroll-behavior:smooth}@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}</style>
-</head>
-<body>
-<div style="width: 100%; background: #F6F7F9; color: #14161A; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 16px; line-height: 1.55; box-sizing: border-box; overflow-x: hidden">
+<div id="progreso" aria-hidden="true"></div>
+
+<div style="width: 100%; background: var(--surface); color: var(--ink); font-family: var(--font-mono); font-size: 16px; line-height: 1.55; box-sizing: border-box; overflow-x: hidden">
 
 <!-- NAV -->
 <header style="max-width: 1200px; margin: 0 auto; padding: 20px clamp(16px, 4vw, 40px); box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px">
-<a href="#top" style="display: flex; align-items: center; gap: 10px; color: #14161A; text-decoration: none; font-weight: 500; font-size: 17px">
-<svg viewBox="0 0 160 140" width="32" height="28" role="img" aria-label="Barrilete"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#14161A"></rect><circle cx="62" cy="75" r="13" fill="#8FB0FF"></circle><circle cx="98" cy="75" r="13" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
+<a href="#top" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 500; font-size: 17px">
+<svg class="bot" viewBox="0 0 160 140" width="32" height="28" role="img" aria-label="Barrilete"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#14161A"></rect><circle class="eye" cx="62" cy="75" r="13" fill="#8FB0FF"></circle><circle class="eye" cx="98" cy="75" r="13" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
 <span>barrilete-kit</span>
 </a>
 <nav aria-label="Principal" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 24px; font-size: 14px">
-<a href="#flujo" style="color: #14161A; text-decoration: none; padding: 10px 0">Flujo</a>
-<a href="#chat" style="color: #14161A; text-decoration: none; padding: 10px 0">Chat</a>
-<a href="#skills" style="color: #14161A; text-decoration: none; padding: 10px 0">Skills</a>
-<a href="#equipo" style="color: #14161A; text-decoration: none; padding: 10px 0">Equipo</a>
-<a href="#modos" style="color: #14161A; text-decoration: none; padding: 10px 0">Modos</a>
-<a href="#empezar" style="color: #14161A; text-decoration: none; padding: 10px 0">Empezar</a>
-<a href="#glosario" style="color: #14161A; text-decoration: none; padding: 10px 0">Glosario</a>
+<a href="#flujo" style="color: var(--ink); text-decoration: none; padding: 10px 0">Flujo</a>
+<a href="#chat" style="color: var(--ink); text-decoration: none; padding: 10px 0">Chat</a>
+<a href="#skills" style="color: var(--ink); text-decoration: none; padding: 10px 0">Skills</a>
+<a href="#equipo" style="color: var(--ink); text-decoration: none; padding: 10px 0">Equipo</a>
+<a href="#modos" style="color: var(--ink); text-decoration: none; padding: 10px 0">Modos</a>
+<a href="#empezar" style="color: var(--ink); text-decoration: none; padding: 10px 0">Empezar</a>
+<a href="#glosario" style="color: var(--ink); text-decoration: none; padding: 10px 0">Glosario</a>
 </nav>
 <div style="display: flex; align-items: center; gap: 16px">
-<span style="display: inline-block; background: #B4122B; color: #FFFFFF; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 6px; border-bottom: 3px solid #14161A; line-height: 1.4">SALTA DEV</span>
-<a href="https://github.com/lautioliver/barrilete-kit" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 2px solid #14161A; border-radius: 12px; color: #14161A; text-decoration: none; font-weight: 500; font-size: 14px; box-sizing: border-box">GitHub</a>
+<span style="display: inline-block; background: var(--rienda); color: var(--surface-raised); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 6px; border-bottom: 3px solid var(--ink); line-height: 1.4">SALTA DEV</span>
+<a href="https://github.com/lautioliver/barrilete-kit" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 2px solid var(--ink); border-radius: 12px; color: var(--ink); text-decoration: none; font-weight: 500; font-size: 14px; box-sizing: border-box">GitHub</a>
 </div>
 </header>
 
@@ -49,47 +104,47 @@ pre{margin:0}
 <section id="top" style="max-width: 1200px; margin: 0 auto; padding: clamp(40px, 6vw, 72px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box">
 <div style="display: flex; flex-wrap: wrap-reverse; align-items: center; gap: 48px">
 <div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Plantilla de repo para agentes de código</div>
-<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(48px, 6.4vw, 88px); line-height: 0.95; letter-spacing: -0.02em">barrilete-kit</h1>
-<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: clamp(24px, 2.6vw, 32px); line-height: 1.15; letter-spacing: -0.01em">Los agentes vuelan. Vos tenés la rienda.</p>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Plantilla de repo para agentes de código</div>
+<h1 class="in" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(48px, 6.4vw, 88px); line-height: 0.95; letter-spacing: -0.02em">barrilete-kit</h1>
+<p class="in in2" style="margin: 0; font-family: var(--font-display); font-weight: 600; font-size: clamp(24px, 2.6vw, 32px); line-height: 1.15; letter-spacing: -0.01em">Los agentes vuelan. Vos tenés la rienda.</p>
 <p style="margin: 0; font-size: 17px; max-width: 560px">Reglas, skills, docs y ADRs para que un agente lleve una idea del plan al PR, mientras vos aprobás el plan y mergeás.</p>
-<ul aria-label="Funciona con" style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px"><li style="padding: 4px 10px; border: 2px solid #14161A; border-radius: 8px">Claude Code</li><li style="padding: 4px 10px; border: 2px solid #14161A; border-radius: 8px">Cursor</li><li style="padding: 4px 10px; border: 2px solid #14161A; border-radius: 8px">GitHub Actions</li><li style="padding: 4px 10px; border: 2px solid #14161A; border-radius: 8px">gh CLI</li><li style="padding: 4px 10px; border: 2px solid #14161A; border-radius: 8px">Python 3</li><li style="padding: 4px 10px; border: 2px solid #14161A; border-radius: 8px">Bash</li><li style="padding: 4px 10px; border: 2px solid #14161A; border-radius: 8px">MIT</li></ul>
+<ul class="chips" aria-label="Funciona con" style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px"><li style="padding: 4px 10px; border: 2px solid var(--ink); border-radius: 8px">Claude Code</li><li style="padding: 4px 10px; border: 2px solid var(--ink); border-radius: 8px">Cursor</li><li style="padding: 4px 10px; border: 2px solid var(--ink); border-radius: 8px">GitHub Actions</li><li style="padding: 4px 10px; border: 2px solid var(--ink); border-radius: 8px">gh CLI</li><li style="padding: 4px 10px; border: 2px solid var(--ink); border-radius: 8px">Python 3</li><li style="padding: 4px 10px; border: 2px solid var(--ink); border-radius: 8px">Bash</li><li style="padding: 4px 10px; border: 2px solid var(--ink); border-radius: 8px">MIT</li></ul>
 <div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
-<a href="https://github.com/lautioliver/barrilete-kit/generate" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: #2B59FF; color: #FFFFFF; border-radius: 12px; text-decoration: none; font-weight: 500; font-size: 16px; box-sizing: border-box">Usar la plantilla</a>
-<a href="https://github.com/lautioliver/barrilete-kit" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; border: 2px solid #14161A; color: #14161A; border-radius: 12px; text-decoration: none; font-weight: 500; font-size: 16px; box-sizing: border-box">Ver en GitHub</a>
+<a class="btn" href="https://github.com/lautioliver/barrilete-kit/generate" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; background: var(--accent); color: var(--surface-raised); border-radius: 12px; text-decoration: none; font-weight: 500; font-size: 16px; box-sizing: border-box">Usar la plantilla</a>
+<a class="btn" href="https://github.com/lautioliver/barrilete-kit" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 24px; border: 2px solid var(--ink); color: var(--ink); border-radius: 12px; text-decoration: none; font-weight: 500; font-size: 16px; box-sizing: border-box">Ver en GitHub</a>
 </div>
 </div>
-<div style="flex: 1 1 360px; min-width: 0; background: #E9ECF1; border-radius: 32px; display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box">
-<svg viewBox="0 0 400 400" style="width: 100%; max-width: 420px; height: auto; display: block" role="img" aria-label="Barrilete, un dron robot atado a una correa con dos nudos">
-<path d="M200 166 Q200 220 150 236 Q100 252 140 300 Q170 336 250 340" stroke="#B4122B" stroke-width="7" fill="none" stroke-linecap="round"></path>
-<circle cx="150" cy="236" r="11" fill="#FFB020"></circle>
-<circle cx="140" cy="300" r="11" fill="#FFB020"></circle>
+<div style="flex: 1 1 360px; min-width: 0; background: var(--surface-muted); border-radius: 32px; display: flex; align-items: center; justify-content: center; padding: 24px; box-sizing: border-box">
+<svg viewBox="0 0 400 400" style="width: 100%; max-width: 420px; height: auto; display: block" role="group" aria-label="Barrilete, un dron robot atado a una correa con dos nudos">
+<path id="correa" class="correa" pathLength="1" d="M200 166 Q200 220 150 236 Q100 252 140 300 Q170 336 250 340" stroke="#B4122B" stroke-width="7" fill="none" stroke-linecap="round"></path>
+<circle class="knot k1" cx="150" cy="236" r="11" fill="#FFB020"></circle>
+<circle class="knot k2" cx="140" cy="300" r="11" fill="#FFB020"></circle>
 <rect x="246" y="328" width="72" height="24" rx="12" fill="#14161A"></rect>
 <rect x="258" y="333" width="48" height="10" rx="4" fill="#B4122B"></rect>
 <rect x="258" y="341" width="48" height="4" rx="2" fill="#5A6270"></rect>
-<g class="dron">
-<rect x="120" y="52" width="64" height="8" rx="4" fill="#14161A"></rect>
-<rect x="216" y="52" width="64" height="8" rx="4" fill="#14161A"></rect>
+<g id="dron" class="dron" tabindex="0" role="button" aria-label="Tirar de la rienda">
+<rect class="rotor" x="120" y="52" width="64" height="8" rx="4" fill="#14161A"></rect>
+<rect class="rotor r2" x="216" y="52" width="64" height="8" rx="4" fill="#14161A"></rect>
 <rect x="148" y="58" width="6" height="18" rx="3" fill="#14161A"></rect>
 <rect x="246" y="58" width="6" height="18" rx="3" fill="#14161A"></rect>
 <rect x="140" y="70" width="120" height="98" rx="40" fill="#FFFFFF"></rect>
 <rect x="158" y="92" width="84" height="46" rx="18" fill="#14161A"></rect>
-<circle cx="186" cy="115" r="7" fill="#8FB0FF"></circle>
-<circle cx="214" cy="115" r="7" fill="#8FB0FF"></circle>
+<g id="ojos"><g class="blink"><circle class="eye" cx="186" cy="115" r="7" fill="#8FB0FF"></circle>
+<circle class="eye" cx="214" cy="115" r="7" fill="#8FB0FF"></circle></g></g>
 <rect x="190" y="160" width="20" height="10" rx="4" fill="#B4122B"></rect>
-<path d="M118 150 Q108 120 118 92" stroke="#14161A" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.25"></path>
-<path d="M282 150 Q292 120 282 92" stroke="#14161A" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.25"></path>
+<path d="M118 150 Q108 120 118 92" stroke="#14161A" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.25" class="wind"></path>
+<path d="M282 150 Q292 120 282 92" stroke="#14161A" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.25" class="wind"></path>
 </g>
 </svg>
 </div>
 </div>
 <div role="img" aria-label="Línea del flujo: plan, implement y review, merge. Los dos extremos son puntos de control humanos." style="display: flex; align-items: center; gap: 12px; margin-top: 56px; font-size: 13px; font-weight: 500">
 <span>plan</span>
-<span style="width: 18px; height: 18px; border-radius: 50%; background: #FFB020; flex: none"></span>
-<span style="flex: 1 1 auto; min-width: 16px; height: 4px; background: #B4122B; border-bottom: 2px solid #14161A"></span>
-<span style="color: #5A6270; white-space: nowrap">implement · review</span>
-<span style="flex: 1 1 auto; min-width: 16px; height: 4px; background: #B4122B; border-bottom: 2px solid #14161A"></span>
-<span style="width: 18px; height: 18px; border-radius: 50%; background: #FFB020; flex: none"></span>
+<span style="width: 18px; height: 18px; border-radius: 50%; background: var(--nudo); flex: none" class="pulse"></span>
+<span class="hilo" style="flex: 1 1 auto; min-width: 16px; height: 4px; background: var(--rienda); border-bottom: 2px solid var(--ink)"></span>
+<span style="color: var(--ink-muted); white-space: nowrap">implement · review</span>
+<span class="hilo" style="flex: 1 1 auto; min-width: 16px; height: 4px; background: var(--rienda); border-bottom: 2px solid var(--ink)"></span>
+<span style="width: 18px; height: 18px; border-radius: 50%; background: var(--nudo); flex: none" class="pulse"></span>
 <span>merge</span>
 </div>
 </section>
@@ -97,236 +152,236 @@ pre{margin:0}
 <!-- TESIS -->
 <section style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">La tesis</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Dos decisiones son siempre tuyas.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">La tesis</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Dos decisiones son siempre tuyas.</h2>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 24px">
-<div style="background: #FFFFFF; border-radius: 20px; padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; gap: 16px">
+<div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 24px">
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; gap: 16px">
 <div style="display: flex; align-items: center; gap: 14px">
-<span style="width: 22px; height: 22px; border-radius: 50%; background: #FFB020; flex: none"></span>
-<span style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Punto de control 1</span>
+<span style="width: 22px; height: 22px; border-radius: 50%; background: var(--nudo); flex: none" class="pulse"></span>
+<span style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Punto de control 1</span>
 </div>
-<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -0.01em">Aprobar el plan.</h3>
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -0.01em">Aprobar el plan.</h3>
 <p style="margin: 0; font-size: 16px"><code>/plan-feature</code> investiga el código y los ADRs, arma la épica con sus issues y bloqueos, y te la muestra. No escribe código hasta que digas que sí.</p>
 </div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; gap: 16px">
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; gap: 16px">
 <div style="display: flex; align-items: center; gap: 14px">
-<span style="width: 22px; height: 22px; border-radius: 50%; background: #FFB020; flex: none"></span>
-<span style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Punto de control 2</span>
+<span style="width: 22px; height: 22px; border-radius: 50%; background: var(--nudo); flex: none" class="pulse"></span>
+<span style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Punto de control 2</span>
 </div>
-<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -0.01em">Mergear.</h3>
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 32px; line-height: 1.1; letter-spacing: -0.01em">Mergear.</h3>
 <p style="margin: 0; font-size: 16px"><code>/implement-issue</code> llega hasta el PR con tests en verde. <code>/review-pr</code> lo revisa en otra sesión. El merge lo hace una persona.</p>
 </div>
 </div>
-<p style="margin: 0; font-size: 16px; max-width: 760px; color: #14161A">Las skills mejoran con el uso, pero no se reescriben solas: <code>/mejorar-skills</code> propone ajustes en un PR y nunca afloja controles.</p>
+<p style="margin: 0; font-size: 16px; max-width: 760px; color: var(--ink)">Las skills mejoran con el uso, pero no se reescriben solas: <code>/mejorar-skills</code> propone ajustes en un PR y nunca afloja controles.</p>
 </section>
 
 <!-- FLUJO -->
 <section id="flujo" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">El flujo</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">De la idea al merge, con la rienda en dos nudos.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">El flujo</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">De la idea al merge, con la rienda en dos nudos.</h2>
 </div>
 <ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); column-gap: 0; row-gap: 32px">
 
 <li style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: center; height: 24px"><span style="width: 14px; height: 14px; border-radius: 50%; background: #FFFFFF; border: 3px solid #14161A; flex: none"></span><span style="flex: 1; height: 4px; background: #B4122B; border-bottom: 2px solid #14161A"></span></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
-<svg viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Barrilete planificando"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle cx="62" cy="75" r="5" fill="#8FB0FF"></circle><circle cx="80" cy="75" r="5" fill="#8FB0FF"></circle><circle cx="98" cy="75" r="5" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
-<div style="font-size: 13px; color: #5A6270">01</div>
-<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.1">idea</div>
-<div style="font-size: 14px; color: #2B59FF; font-weight: 500">/plan-feature</div>
+<div style="display: flex; align-items: center; height: 24px"><span style="width: 14px; height: 14px; border-radius: 50%; background: var(--surface-raised); border: 3px solid var(--ink); flex: none"></span><span class="hilo" style="flex: 1; height: 4px; background: var(--rienda); border-bottom: 2px solid var(--ink)"></span></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
+<svg class="bot" viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Barrilete planificando"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle class="eye" cx="62" cy="75" r="5" fill="#8FB0FF"></circle><circle class="eye" cx="80" cy="75" r="5" fill="#8FB0FF"></circle><circle class="eye" cx="98" cy="75" r="5" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
+<div style="font-size: 13px; color: var(--ink-muted)">01</div>
+<div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">idea</div>
+<div style="font-size: 14px; color: var(--accent); font-weight: 500">/plan-feature</div>
 <div style="font-size: 14px">épica + issues con bloqueos</div>
 </div>
 </li>
 
 <li style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: center; height: 24px"><span style="width: 24px; height: 24px; border-radius: 50%; background: #FFB020; flex: none"></span><span style="flex: 1; height: 4px; background: #B4122B; border-bottom: 2px solid #14161A"></span></div>
-<div style="background: #E9ECF1; border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
-<div style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; color: #14161A">Punto de control</div>
-<div style="font-size: 13px; color: #14161A">02</div>
-<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.1">aprobás el plan</div>
+<div style="display: flex; align-items: center; height: 24px"><span style="width: 24px; height: 24px; border-radius: 50%; background: var(--nudo); flex: none" class="pulse"></span><span class="hilo" style="flex: 1; height: 4px; background: var(--rienda); border-bottom: 2px solid var(--ink)"></span></div>
+<div style="background: var(--surface-muted); border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
+<div style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; color: var(--ink)">Punto de control</div>
+<div style="font-size: 13px; color: var(--ink)">02</div>
+<div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">aprobás el plan</div>
 <div style="font-size: 14px">Sin tu sí, no hay código.</div>
 </div>
 </li>
 
 <li style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: center; height: 24px"><span style="width: 14px; height: 14px; border-radius: 50%; background: #FFFFFF; border: 3px solid #14161A; flex: none"></span><span style="flex: 1; height: 4px; background: #B4122B; border-bottom: 2px solid #14161A"></span></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
-<svg viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Barrilete trabajando"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle cx="66" cy="75" r="7" fill="#8FB0FF"></circle><circle cx="94" cy="75" r="7" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
-<div style="font-size: 13px; color: #5A6270">03</div>
-<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.1">implementa</div>
-<div style="font-size: 14px; color: #2B59FF; font-weight: 500">/implement-issue &lt;n&gt;</div>
+<div style="display: flex; align-items: center; height: 24px"><span style="width: 14px; height: 14px; border-radius: 50%; background: var(--surface-raised); border: 3px solid var(--ink); flex: none"></span><span class="hilo" style="flex: 1; height: 4px; background: var(--rienda); border-bottom: 2px solid var(--ink)"></span></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
+<svg class="bot" viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Barrilete trabajando"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle class="eye" cx="66" cy="75" r="7" fill="#8FB0FF"></circle><circle class="eye" cx="94" cy="75" r="7" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
+<div style="font-size: 13px; color: var(--ink-muted)">03</div>
+<div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">implementa</div>
+<div style="font-size: 14px; color: var(--accent); font-weight: 500">/implement-issue &lt;n&gt;</div>
 <div style="font-size: 14px">tests en rojo desde los criterios, código hasta verde, autorevisión, docs</div>
 </div>
 </li>
 
 <li style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: center; height: 24px"><span style="width: 14px; height: 14px; border-radius: 50%; background: #FFFFFF; border: 3px solid #14161A; flex: none"></span><span style="flex: 1; height: 4px; background: #B4122B; border-bottom: 2px solid #14161A"></span></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
-<svg viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Barrilete con el PR listo"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path d="M58 80 L66 70 L74 80" stroke="#8FB0FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M86 80 L94 70 L102 80" stroke="#8FB0FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#FFB020"></rect></svg>
-<div style="font-size: 13px; color: #5A6270">04</div>
-<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.1">PR</div>
-<div style="font-size: 14px; color: #2B59FF; font-weight: 500">/review-pr &lt;n&gt;</div>
+<div style="display: flex; align-items: center; height: 24px"><span style="width: 14px; height: 14px; border-radius: 50%; background: var(--surface-raised); border: 3px solid var(--ink); flex: none"></span><span class="hilo" style="flex: 1; height: 4px; background: var(--rienda); border-bottom: 2px solid var(--ink)"></span></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
+<svg class="bot" viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Barrilete con el PR listo"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path class="eye" d="M58 80 L66 70 L74 80" stroke="#8FB0FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path class="eye" d="M86 80 L94 70 L102 80" stroke="#8FB0FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#FFB020"></rect></svg>
+<div style="font-size: 13px; color: var(--ink-muted)">04</div>
+<div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">PR</div>
+<div style="font-size: 14px; color: var(--accent); font-weight: 500">/review-pr &lt;n&gt;</div>
 <div style="font-size: 14px">en otra sesión, más <code>/security-review</code> si toca rutas sensibles</div>
 </div>
 </li>
 
 <li style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: center; height: 24px"><span style="width: 24px; height: 24px; border-radius: 50%; background: #FFB020; flex: none"></span><span style="flex: 1; height: 4px; background: #B4122B; border-bottom: 2px solid #14161A"></span></div>
-<div style="background: #E9ECF1; border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
-<div style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; color: #14161A">Punto de control</div>
-<div style="font-size: 13px; color: #14161A">05</div>
-<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.1">mergeás</div>
+<div style="display: flex; align-items: center; height: 24px"><span style="width: 24px; height: 24px; border-radius: 50%; background: var(--nudo); flex: none" class="pulse"></span><span class="hilo" style="flex: 1; height: 4px; background: var(--rienda); border-bottom: 2px solid var(--ink)"></span></div>
+<div style="background: var(--surface-muted); border-radius: 20px; padding: 20px; margin-right: 12px; display: flex; flex-direction: column; gap: 12px; flex: 1">
+<div style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; color: var(--ink)">Punto de control</div>
+<div style="font-size: 13px; color: var(--ink)">05</div>
+<div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">mergeás</div>
 <div style="font-size: 14px">El merge lo hace una persona.</div>
 </div>
 </li>
 
 <li style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: center; height: 24px"><span style="width: 14px; height: 14px; border-radius: 50%; background: #FFFFFF; border: 3px solid #14161A; flex: none"></span><span style="flex: 1; height: 4px; background: #B4122B; border-bottom: 2px solid #14161A"></span></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 12px; flex: 1">
-<div style="font-size: 13px; color: #5A6270">06</div>
-<div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.1">retro</div>
+<div style="display: flex; align-items: center; height: 24px"><span style="width: 14px; height: 14px; border-radius: 50%; background: var(--surface-raised); border: 3px solid var(--ink); flex: none"></span><span class="hilo" style="flex: 1; height: 4px; background: var(--rienda); border-bottom: 2px solid var(--ink)"></span></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 20px; display: flex; flex-direction: column; gap: 12px; flex: 1">
+<div style="font-size: 13px; color: var(--ink-muted)">06</div>
+<div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">retro</div>
 <div style="font-size: 14px">en el issue fijado →</div>
-<div style="font-size: 14px; color: #2B59FF; font-weight: 500">/mejorar-skills</div>
+<div style="font-size: 14px; color: var(--accent); font-weight: 500">/mejorar-skills</div>
 <div style="font-size: 14px">propone ajustes en un PR</div>
 </div>
 </li>
 </ol>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px; background: #14161A; color: #E9ECF1; border-radius: 20px; padding: 20px 24px">
-<svg viewBox="0 0 160 140" width="48" height="42" role="img" aria-label="Barrilete bloqueado" style="flex: none"><rect x="0" y="12" width="64" height="8" rx="4" fill="#E9ECF1"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#E9ECF1"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#E9ECF1"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#E9ECF1"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path d="M60 69 L72 81 M72 69 L60 81" stroke="#FF8A96" stroke-width="5" stroke-linecap="round"></path><path d="M88 69 L100 81 M100 69 L88 81" stroke="#FF8A96" stroke-width="5" stroke-linecap="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
-<p style="margin: 0; font-size: 14px; flex: 1 1 320px">Si un issue depende de otro, queda con <span style="color: #FF8A96; font-weight: 500">estado:bloqueado</span>. El workflow <span style="color: #8FB0FF">desbloquear.yml</span> le saca el label solo cuando se cierran todos los bloqueantes.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px; background: var(--ink); color: var(--surface-muted); border-radius: 20px; padding: 20px 24px">
+<svg class="bot" viewBox="0 0 160 140" width="48" height="42" role="img" aria-label="Barrilete bloqueado" style="flex: none"><rect x="0" y="12" width="64" height="8" rx="4" fill="#E9ECF1"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#E9ECF1"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#E9ECF1"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#E9ECF1"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path class="eye" d="M60 69 L72 81 M72 69 L60 81" stroke="#FF8A96" stroke-width="5" stroke-linecap="round"></path><path class="eye" d="M88 69 L100 81 M100 69 L88 81" stroke="#FF8A96" stroke-width="5" stroke-linecap="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
+<p style="margin: 0; font-size: 14px; flex: 1 1 320px">Si un issue depende de otro, queda con <span style="color: var(--alert-on-inverse); font-weight: 500">estado:bloqueado</span>. El workflow <span style="color: var(--accent-on-inverse)">desbloquear.yml</span> le saca el label solo cuando se cierran todos los bloqueantes.</p>
 </div>
 <p style="margin: 0; font-size: 15px; max-width: 760px">Durante <code>/implement-issue</code> se usan, según haga falta, <code>debug</code>, <code>db-migration</code> y <code>update-docs</code>. Si el PR toca rutas sensibles, la revisión suma <code>/security-review</code>.</p>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px"><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center"><svg viewBox="0 0 160 140" width="72" height="63" role="img" aria-label="Barrilete planificando"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle cx="62" cy="75" r="5" fill="#8FB0FF"></circle><circle cx="80" cy="75" r="5" fill="#8FB0FF"></circle><circle cx="98" cy="75" r="5" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px">planificando</div><code>/plan-feature</code></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center"><svg viewBox="0 0 160 140" width="72" height="63" role="img" aria-label="Barrilete trabajando"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle cx="66" cy="75" r="7" fill="#8FB0FF"></circle><circle cx="94" cy="75" r="7" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px">trabajando</div><code>/implement-issue</code></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center"><svg viewBox="0 0 160 140" width="72" height="63" role="img" aria-label="Barrilete bloqueado"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path d="M60 69 L72 81 M72 69 L60 81" stroke="#B4122B" stroke-width="5" stroke-linecap="round"></path><path d="M88 69 L100 81 M100 69 L88 81" stroke="#B4122B" stroke-width="5" stroke-linecap="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px">bloqueado</div><code>estado:bloqueado</code></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center"><svg viewBox="0 0 160 140" width="72" height="63" role="img" aria-label="Barrilete PR listo"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path d="M58 80 L66 70 L74 80" stroke="#8FB0FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path d="M86 80 L94 70 L102 80" stroke="#8FB0FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#FFB020"></rect></svg><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 22px">PR listo</div><code>esperando tu merge</code></div></div>
+<div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px"><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center"><svg class="bot" viewBox="0 0 160 140" width="72" height="63" role="img" aria-label="Barrilete planificando"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle class="eye" cx="62" cy="75" r="5" fill="#8FB0FF"></circle><circle class="eye" cx="80" cy="75" r="5" fill="#8FB0FF"></circle><circle class="eye" cx="98" cy="75" r="5" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><div style="font-family: var(--font-display); font-weight: 800; font-size: 22px">planificando</div><code>/plan-feature</code></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center"><svg class="bot" viewBox="0 0 160 140" width="72" height="63" role="img" aria-label="Barrilete trabajando"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle class="eye" cx="66" cy="75" r="7" fill="#8FB0FF"></circle><circle class="eye" cx="94" cy="75" r="7" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><div style="font-family: var(--font-display); font-weight: 800; font-size: 22px">trabajando</div><code>/implement-issue</code></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center"><svg class="bot" viewBox="0 0 160 140" width="72" height="63" role="img" aria-label="Barrilete bloqueado"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path class="eye" d="M60 69 L72 81 M72 69 L60 81" stroke="#B4122B" stroke-width="5" stroke-linecap="round"></path><path class="eye" d="M88 69 L100 81 M100 69 L88 81" stroke="#B4122B" stroke-width="5" stroke-linecap="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><div style="font-family: var(--font-display); font-weight: 800; font-size: 22px">bloqueado</div><code>estado:bloqueado</code></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; align-items: center; text-align: center"><svg class="bot" viewBox="0 0 160 140" width="72" height="63" role="img" aria-label="Barrilete PR listo"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path class="eye" d="M58 80 L66 70 L74 80" stroke="#8FB0FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><path class="eye" d="M86 80 L94 70 L102 80" stroke="#8FB0FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#FFB020"></rect></svg><div style="font-family: var(--font-display); font-weight: 800; font-size: 22px">PR listo</div><code>esperando tu merge</code></div></div>
 </section>
 
 <!-- QUÉ TRAE -->
 <section style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Qué trae</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Todo lo que el agente necesita saber, en el repo.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Qué trae</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Todo lo que el agente necesita saber, en el repo.</h2>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px">
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Reglas para agentes</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>AGENTS.md</code> como fuente, <code>CLAUDE.md</code> y <code>llms.txt</code> apuntando a él.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Autonomía del agente</div><p style="margin: 0; font-size: 15px; color: #5A6270">Qué puede hacer solo, qué tiene que consultar y qué nunca.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Mapa para agentes</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>docs/mapa-agentes.json</code> dice qué docs revisar según lo que cambia y cuáles rutas son sensibles.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Docs testeados en CI</div><p style="margin: 0; font-size: 15px; color: #5A6270">Links, rutas y ADRs rotos, rutas del mapa que ya no existen, shellcheck y los <code>test-*.sh</code>: si algo se rompe, falla el check.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Verificación antes del PR</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>verificar.py</code> corre lint, typecheck, tests afectados y drift de migraciones según lo que cambió.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">ADRs</div><p style="margin: 0; font-size: 15px; color: #5A6270">Plantilla y guía para registrar decisiones.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Convenciones de GitHub</div><p style="margin: 0; font-size: 15px; color: #5A6270">Ramas, commits, PRs, issues y labels.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Labels y auto-etiquetado</div><p style="margin: 0; font-size: 15px; color: #5A6270">Sync desde <code>labels.yml</code> y labeler de PRs.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Hub de documentación</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>docs/README.md</code> con <code>reference/</code>, <code>development/</code>, <code>guides/</code> y <code>decisions/</code>.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Issues y PRs</div><p style="margin: 0; font-size: 15px; color: #5A6270">Formularios de issue con labels, plantilla de PR y <code>desbloquear.yml</code>.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Subagentes por modelo</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>.claude/agents/</code>: implementador, implementador liviano y revisor, con un contrato común.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Secretos fuera del repo</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>.gitignore</code> deja afuera <code>.env*</code> (salvo <code>.env.example</code>).</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Equipo</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>.github/equipo.json</code> + <code>equipo.py</code>: quién recibe los issues según sus áreas.</p></div>
-<div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Marca</div><p style="margin: 0; font-size: 15px; color: #5A6270">Barrilete, la identidad de la plantilla. El init la borra.</p></div>
-<div style="background: #E9ECF1; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Issues desde el chat</div><p style="margin: 0; font-size: 15px; color: #14161A">“abrí un issue: el QR no valida sin conexión, es urgente”.</p></div>
+<div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px">
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Reglas para agentes</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>AGENTS.md</code> como fuente, <code>CLAUDE.md</code> y <code>llms.txt</code> apuntando a él.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Autonomía del agente</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Qué puede hacer solo, qué tiene que consultar y qué nunca.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Mapa para agentes</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>docs/mapa-agentes.json</code> dice qué docs revisar según lo que cambia y cuáles rutas son sensibles.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Docs testeados en CI</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Links, rutas y ADRs rotos, rutas del mapa que ya no existen, shellcheck y los <code>test-*.sh</code>: si algo se rompe, falla el check.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Verificación antes del PR</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>verificar.py</code> corre lint, typecheck, tests afectados y drift de migraciones según lo que cambió.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">ADRs</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Plantilla y guía para registrar decisiones.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Convenciones de GitHub</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Ramas, commits, PRs, issues y labels.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Labels y auto-etiquetado</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Sync desde <code>labels.yml</code> y labeler de PRs.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Hub de documentación</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>docs/README.md</code> con <code>reference/</code>, <code>development/</code>, <code>guides/</code> y <code>decisions/</code>.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Issues y PRs</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Formularios de issue con labels, plantilla de PR y <code>desbloquear.yml</code>.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Subagentes por modelo</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>.claude/agents/</code>: implementador, implementador liviano y revisor, con un contrato común.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Secretos fuera del repo</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>.gitignore</code> deja afuera <code>.env*</code> (salvo <code>.env.example</code>).</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Equipo</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>.github/equipo.json</code> + <code>equipo.py</code>: quién recibe los issues según sus áreas.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Marca</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Barrilete, la identidad de la plantilla. El init la borra.</p></div>
+<div style="background: var(--surface-muted); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Issues desde el chat</div><p style="margin: 0; font-size: 15px; color: var(--ink)">“abrí un issue: el QR no valida sin conexión, es urgente”.</p></div>
 </div>
 </section>
 
 <!-- CHAT -->
 <section id="chat" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Pedíselo en el chat</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Decís una frase. Pasa esto.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Pedíselo en el chat</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Decís una frase. Pasa esto.</h2>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px"><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: #14161A; color: #E9ECF1; border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“abrí un issue: el QR no valida sin conexión, es urgente”</div><div style="font-size: 14px; color: #2B59FF; font-weight: 500">→ crear-issue</div><p style="margin: 0; font-size: 15px; color: #5A6270">Arma título y labels según la convención, busca duplicados, te muestra el borrador y lo crea cuando confirmás.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: #14161A; color: #E9ECF1; border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“la migración de pagos depende de que se cierre el issue 25”</div><div style="font-size: 14px; color: #2B59FF; font-weight: 500">→ crear-issue</div><p style="margin: 0; font-size: 15px; color: #5A6270">Registra el bloqueo nativo de GitHub (“Blocked by”) y pone <code>estado:bloqueado</code>. <code>desbloquear.yml</code> lo saca al cerrarse los bloqueantes.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: #14161A; color: #E9ECF1; border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“planificá la migración de cuentas”</div><div style="font-size: 14px; color: #2B59FF; font-weight: 500">→ /plan-feature</div><p style="margin: 0; font-size: 15px; color: #5A6270">Investiga el código y arma una épica con sub-issues y bloqueos, en el orden en que se pueden hacer.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: #14161A; color: #E9ECF1; border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“pasá esta auditoría a issues”</div><div style="font-size: 14px; color: #2B59FF; font-weight: 500">→ crear-issue</div><p style="margin: 0; font-size: 15px; color: #5A6270">Un issue por hallazgo, con el link al documento.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: #14161A; color: #E9ECF1; border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“¿qué puedo hacer ahora?”</div><div style="font-size: 14px; color: #2B59FF; font-weight: 500">→ /estado</div><p style="margin: 0; font-size: 15px; color: #5A6270">Lo libre por prioridad, lo bloqueado con su motivo y el avance de cada épica.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: #14161A; color: #E9ECF1; border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“sumá a @ana al equipo, cubre pagos”</div><div style="font-size: 14px; color: #2B59FF; font-weight: 500">→ /add-member</div><p style="margin: 0; font-size: 15px; color: #5A6270">Valida usuario y áreas y lo agrega a <code>.github/equipo.json</code>. Los issues de pagos nacen asignados a quien tenga menos carga.</p></div></div>
+<div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px"><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: var(--ink); color: var(--surface-muted); border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“abrí un issue: el QR no valida sin conexión, es urgente”</div><div style="font-size: 14px; color: var(--accent); font-weight: 500">→ crear-issue</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Arma título y labels según la convención, busca duplicados, te muestra el borrador y lo crea cuando confirmás.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: var(--ink); color: var(--surface-muted); border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“la migración de pagos depende de que se cierre el issue 25”</div><div style="font-size: 14px; color: var(--accent); font-weight: 500">→ crear-issue</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Registra el bloqueo nativo de GitHub (“Blocked by”) y pone <code>estado:bloqueado</code>. <code>desbloquear.yml</code> lo saca al cerrarse los bloqueantes.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: var(--ink); color: var(--surface-muted); border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“planificá la migración de cuentas”</div><div style="font-size: 14px; color: var(--accent); font-weight: 500">→ /plan-feature</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Investiga el código y arma una épica con sub-issues y bloqueos, en el orden en que se pueden hacer.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: var(--ink); color: var(--surface-muted); border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“pasá esta auditoría a issues”</div><div style="font-size: 14px; color: var(--accent); font-weight: 500">→ crear-issue</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Un issue por hallazgo, con el link al documento.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: var(--ink); color: var(--surface-muted); border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“¿qué puedo hacer ahora?”</div><div style="font-size: 14px; color: var(--accent); font-weight: 500">→ /estado</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Lo libre por prioridad, lo bloqueado con su motivo y el avance de cada épica.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="align-self: flex-start; background: var(--ink); color: var(--surface-muted); border-radius: 16px 16px 16px 4px; padding: 12px 16px; font-size: 15px">“sumá a @ana al equipo, cubre pagos”</div><div style="font-size: 14px; color: var(--accent); font-weight: 500">→ /add-member</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Valida usuario y áreas y lo agrega a <code>.github/equipo.json</code>. Los issues de pagos nacen asignados a quien tenga menos carga.</p></div></div>
 </section>
 
 <!-- SKILLS -->
 <section id="skills" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Skills</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">13 skills para todo el ciclo.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Skills</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">13 skills para todo el ciclo.</h2>
 <p style="margin: 0; font-size: 16px; max-width: 680px">Viven en <code>.claude/skills/</code>. Las que empiezan con <code>/</code> se invocan como comando; las otras el agente las usa cuando hacen falta. Máximo 120 líneas cada una, controlado por <code>check-docs.py</code>.</p>
 </div>
 <dl style="margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 480px), 1fr)); column-gap: 48px; row-gap: 0">
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">/plan-feature</dt><dd style="margin: 0; font-size: 15px">Investiga y convierte una idea en épica + issues. No escribe código.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">crear-issue</dt><dd style="margin: 0; font-size: 15px">Issues sueltos, auditorías a issues, bloqueos entre issues.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">/implement-issue &lt;n&gt;</dt><dd style="margin: 0; font-size: 15px">Del issue al PR con TDD: <code>rojo.sh</code> comprueba que los tests fallen por una aserción, después código hasta verde. No mergea.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">debug</dt><dd style="margin: 0; font-size: 15px">Síntoma → evidencia → causa raíz → arreglo → test de regresión.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">db-migration</dt><dd style="margin: 0; font-size: 15px">Plan con compatibilidad, backfill y rollback antes de tocar el schema.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">update-docs</dt><dd style="margin: 0; font-size: 15px">Corrige los docs que quedaron viejos, en el mismo PR.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">/review-pr &lt;n&gt;</dt><dd style="margin: 0; font-size: 15px">Revisa reglas de negocio, ADRs, docs, tests y rutas sensibles. No aprueba.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">/mejorar-skills</dt><dd style="margin: 0; font-size: 15px">Junta retros y señales objetivas (fallas de CI, reverts) y propone ajustes en un PR. Nunca afloja controles.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">/estado</dt><dd style="margin: 0; font-size: 15px">Versión, trabajo, épicas, PRs, deuda, decisiones y “¿qué puedo hacer ahora?”.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">git-workflow</dt><dd style="margin: 0; font-size: 15px">Ramas, commits y PRs.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">/orquestar</dt><dd style="margin: 0; font-size: 15px">Reparte hasta 3 issues entre subagentes en paralelo, cada uno en su worktree, y junta PRs y consultas en un solo mensaje.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="color: #2B59FF; font-weight: 500">/add-member · /remove-member</dt><dd style="margin: 0; font-size: 15px">Agregar, editar, pausar o quitar integrantes del equipo que recibe los issues.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">/plan-feature</dt><dd style="margin: 0; font-size: 15px">Investiga y convierte una idea en épica + issues. No escribe código.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">crear-issue</dt><dd style="margin: 0; font-size: 15px">Issues sueltos, auditorías a issues, bloqueos entre issues.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">/implement-issue &lt;n&gt;</dt><dd style="margin: 0; font-size: 15px">Del issue al PR con TDD: <code>rojo.sh</code> comprueba que los tests fallen por una aserción, después código hasta verde. No mergea.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">debug</dt><dd style="margin: 0; font-size: 15px">Síntoma → evidencia → causa raíz → arreglo → test de regresión.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">db-migration</dt><dd style="margin: 0; font-size: 15px">Plan con compatibilidad, backfill y rollback antes de tocar el schema.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">update-docs</dt><dd style="margin: 0; font-size: 15px">Corrige los docs que quedaron viejos, en el mismo PR.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">/review-pr &lt;n&gt;</dt><dd style="margin: 0; font-size: 15px">Revisa reglas de negocio, ADRs, docs, tests y rutas sensibles. No aprueba.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">/mejorar-skills</dt><dd style="margin: 0; font-size: 15px">Junta retros y señales objetivas (fallas de CI, reverts) y propone ajustes en un PR. Nunca afloja controles.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">/estado</dt><dd style="margin: 0; font-size: 15px">Versión, trabajo, épicas, PRs, deuda, decisiones y “¿qué puedo hacer ahora?”.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">git-workflow</dt><dd style="margin: 0; font-size: 15px">Ramas, commits y PRs.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">/orquestar</dt><dd style="margin: 0; font-size: 15px">Reparte hasta 3 issues entre subagentes en paralelo, cada uno en su worktree, y junta PRs y consultas en un solo mensaje.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="color: var(--accent); font-weight: 500">/add-member · /remove-member</dt><dd style="margin: 0; font-size: 15px">Agregar, editar, pausar o quitar integrantes del equipo que recibe los issues.</dd></div>
 </dl>
 </section>
 
 <!-- SUBAGENTES -->
 <section id="subagentes" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Subagentes por modelo</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Tres en paralelo. Ninguno mergea.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Subagentes por modelo</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Tres en paralelo. Ninguno mergea.</h2>
 <p style="margin: 0; font-size: 16px; max-width: 680px"><code>/orquestar</code> reparte hasta 3 issues disponibles: elige Haiku o Sonnet según <code>ruteo.py</code> y Opus revisa. Cada uno trabaja en su propio worktree y todos comparten el contrato de <code>docs/agentes/contrato-subagentes.md</code>.</p>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px"><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="display: flex; align-items: center; justify-content: space-between; gap: 12px"><svg viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Implementador"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle cx="66" cy="75" r="7" fill="#8FB0FF"></circle><circle cx="94" cy="75" r="7" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><span style="background: #2B59FF; color: #FFFFFF; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px">Sonnet</span></div><div style="font-weight: 500; font-size: 17px">implementador</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>implement-issue</code> en el worktree que le pasan: lógica de negocio, bugs, features y lo que escala el liviano.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="display: flex; align-items: center; justify-content: space-between; gap: 12px"><svg viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Implementador liviano"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle cx="66" cy="75" r="5" fill="#8FB0FF"></circle><circle cx="94" cy="75" r="5" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><span style="background: #5A6270; color: #FFFFFF; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px">Haiku</span></div><div style="font-weight: 500; font-size: 17px">implementador-liviano</div><p style="margin: 0; font-size: 15px; color: #5A6270">Issues chicos sin rutas sensibles ni lógica de negocio. Si encuentra algo de eso, frena y escala.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="display: flex; align-items: center; justify-content: space-between; gap: 12px"><svg viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Revisor"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path d="M56 75 L76 75 M84 75 L104 75" stroke="#8FB0FF" stroke-width="6" stroke-linecap="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><span style="background: #B4122B; color: #FFFFFF; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px">Opus</span></div><div style="font-weight: 500; font-size: 17px">revisor</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>review-pr</code> desde otro contexto, en un worktree propio. No publica: devuelve los hallazgos.</p></div></div>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px; background: #14161A; color: #E9ECF1; border-radius: 20px; padding: 20px 24px"><p style="margin: 0; font-size: 14px; flex: 1 1 320px">PRs listos, consultas y escalados llegan juntos en un solo mensaje. <span style="color: #FFB020; font-weight: 500">Nada se mergea ni se publica sin tu confirmación.</span></p></div>
+<div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px"><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="display: flex; align-items: center; justify-content: space-between; gap: 12px"><svg class="bot" viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Implementador"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle class="eye" cx="66" cy="75" r="7" fill="#8FB0FF"></circle><circle class="eye" cx="94" cy="75" r="7" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><span style="background: var(--accent); color: var(--surface-raised); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px">Sonnet</span></div><div style="font-weight: 500; font-size: 17px">implementador</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>implement-issue</code> en el worktree que le pasan: lógica de negocio, bugs, features y lo que escala el liviano.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="display: flex; align-items: center; justify-content: space-between; gap: 12px"><svg class="bot" viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Implementador liviano"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle class="eye" cx="66" cy="75" r="5" fill="#8FB0FF"></circle><circle class="eye" cx="94" cy="75" r="5" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><span style="background: var(--ink-muted); color: var(--surface-raised); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px">Haiku</span></div><div style="font-weight: 500; font-size: 17px">implementador-liviano</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Issues chicos sin rutas sensibles ni lógica de negocio. Si encuentra algo de eso, frena y escala.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px; gap: 14px"><div style="display: flex; align-items: center; justify-content: space-between; gap: 12px"><svg class="bot" viewBox="0 0 160 140" width="56" height="49" role="img" aria-label="Revisor"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><path class="eye" d="M56 75 L76 75 M84 75 L104 75" stroke="#8FB0FF" stroke-width="6" stroke-linecap="round"></path><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><span style="background: var(--rienda); color: var(--surface-raised); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px">Opus</span></div><div style="font-weight: 500; font-size: 17px">revisor</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>review-pr</code> desde otro contexto, en un worktree propio. No publica: devuelve los hallazgos.</p></div></div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px; background: var(--ink); color: var(--surface-muted); border-radius: 20px; padding: 20px 24px"><p style="margin: 0; font-size: 14px; flex: 1 1 320px">PRs listos, consultas y escalados llegan juntos en un solo mensaje. <span style="color: var(--nudo); font-weight: 500">Nada se mergea ni se publica sin tu confirmación.</span></p></div>
 </section>
 
 <!-- APRENDEN -->
 <section id="aprenden" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Cómo aprenden</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Mejoran con el uso. No se reescriben solas.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Cómo aprenden</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Mejoran con el uso. No se reescriben solas.</h2>
 </div>
-<ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px"><li style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 36px; line-height: 1; color: #B4122B">1</div><div style="font-weight: 500; font-size: 16px">Retro en cada corrida</div><p style="margin: 0; font-size: 15px; color: #5A6270">Cada <code>implement-issue</code> y <code>review-pr</code> deja una retro en la rama <code>agentes/retros</code>. Solo git: no ensucia los PRs.</p></li><li style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 36px; line-height: 1; color: #B4122B">2</div><div style="font-weight: 500; font-size: 16px">Patrones, no anécdotas</div><p style="margin: 0; font-size: 15px; color: #5A6270"><code>/mejorar-skills</code> busca al menos dos casos (o uno grave) y prefiere convertirlos en scripts o checks antes que en más texto. Se puede programar semanal.</p></li><li style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 36px; line-height: 1; color: #B4122B">3</div><div style="font-weight: 500; font-size: 16px">Siempre en un PR</div><p style="margin: 0; font-size: 15px; color: #5A6270">Los ajustes llegan como PR. Lo que no alcanza para cambiar una skill va a <code>docs/agentes/lecciones.md</code>, que <code>implement-issue</code> lee antes de empezar.</p></li></ol>
+<ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px"><li class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-family: var(--font-display); font-weight: 800; font-size: 36px; line-height: 1; color: var(--rienda)">1</div><div style="font-weight: 500; font-size: 16px">Retro en cada corrida</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Cada <code>implement-issue</code> y <code>review-pr</code> deja una retro en la rama <code>agentes/retros</code>. Solo git: no ensucia los PRs.</p></li><li class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-family: var(--font-display); font-weight: 800; font-size: 36px; line-height: 1; color: var(--rienda)">2</div><div style="font-weight: 500; font-size: 16px">Patrones, no anécdotas</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>/mejorar-skills</code> busca al menos dos casos (o uno grave) y prefiere convertirlos en scripts o checks antes que en más texto. Se puede programar semanal.</p></li><li class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-family: var(--font-display); font-weight: 800; font-size: 36px; line-height: 1; color: var(--rienda)">3</div><div style="font-weight: 500; font-size: 16px">Siempre en un PR</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Los ajustes llegan como PR. Lo que no alcanza para cambiar una skill va a <code>docs/agentes/lecciones.md</code>, que <code>implement-issue</code> lee antes de empezar.</p></li></ol>
 <p style="margin: 0; font-size: 15px; max-width: 760px">Los agentes aprenden de lo consolidado y revisado, nunca de retros crudas. Dos checks del workflow de labels salieron de este circuito en un repo real: un PR con <code>logica-negocio</code> tiene que tocar <code>docs/decisions/</code>, y un PR sin <code>tipo:</code> lo copia del issue que cierra.</p>
 </section>
 
 <!-- EQUIPO -->
 <section id="equipo" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Equipo y asignación</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Cada issue nace con responsable.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Equipo y asignación</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Cada issue nace con responsable.</h2>
 <p style="margin: 0; font-size: 16px; max-width: 680px"><code>.github/equipo.json</code> lista a los integrantes: usuario de GitHub, nombre, áreas que cubren y si están activos o en pausa. Lo leen <code>crear-issue</code> y <code>planificar.py</code>.</p>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px"><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: #5A6270">01</div><div style="font-weight: 500; font-size: 16px">Por área</div><p style="margin: 0; font-size: 15px; color: #5A6270">Entre los activos, los que cubren alguna <code>area:</code> del issue.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: #5A6270">02</div><div style="font-weight: 500; font-size: 16px">Si nadie la cubre</div><p style="margin: 0; font-size: 15px; color: #5A6270">Todos los activos.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: #5A6270">03</div><div style="font-weight: 500; font-size: 16px">Menos carga gana</div><p style="margin: 0; font-size: 15px; color: #5A6270">El de menos issues abiertos asignados. En una épica, la carga se reparte entre los issues del mismo plan.</p></div></div>
-<div style="background: #E9ECF1; border-radius: 20px; padding: clamp(24px, 3vw, 32px); display: flex; flex-direction: column; gap: 10px"><div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px">Asignado significa responsable.</div><p style="margin: 0; font-size: 15px">No “lo está trabajando”. <code style="background: #FFFFFF">disponibles.sh</code> muestra primero lo tuyo, marca “en curso” lo que tiene PR abierto y separa lo mergeado que espera release. <code style="background: #FFFFFF">preparar.sh</code> no deja tomar un issue de otra persona.</p></div>
+<div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px"><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: var(--ink-muted)">01</div><div style="font-weight: 500; font-size: 16px">Por área</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Entre los activos, los que cubren alguna <code>area:</code> del issue.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: var(--ink-muted)">02</div><div style="font-weight: 500; font-size: 16px">Si nadie la cubre</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Todos los activos.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: var(--ink-muted)">03</div><div style="font-weight: 500; font-size: 16px">Menos carga gana</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">El de menos issues abiertos asignados. En una épica, la carga se reparte entre los issues del mismo plan.</p></div></div>
+<div style="background: var(--surface-muted); border-radius: 20px; padding: clamp(24px, 3vw, 32px); display: flex; flex-direction: column; gap: 10px"><div style="font-family: var(--font-display); font-weight: 800; font-size: 24px">Asignado significa responsable.</div><p style="margin: 0; font-size: 15px">No “lo está trabajando”. <code style="background: var(--surface-raised)">disponibles.sh</code> muestra primero lo tuyo, marca “en curso” lo que tiene PR abierto y separa lo mergeado que espera release. <code style="background: var(--surface-raised)">preparar.sh</code> no deja tomar un issue de otra persona.</p></div>
 </section>
 
 <!-- MODOS -->
 <section id="modos" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Modos</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Elegí la rama base y el tamaño.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Modos</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Elegí la rama base y el tamaño.</h2>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 24px">
-<div style="background: #FFFFFF; border-radius: 20px; padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; gap: 20px">
+<div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 24px">
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; gap: 20px">
 <div style="display: flex; flex-direction: column; gap: 6px">
-<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px; line-height: 1.1">Completo</h3>
-<div style="font-size: 14px; color: #5A6270">Para equipos.</div>
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 32px; line-height: 1.1">Completo</h3>
+<div style="font-size: 14px; color: var(--ink-muted)">Para equipos.</div>
 </div>
 <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 15px">
-<li style="padding-top: 12px; border-top: 2px solid #E9ECF1">13 skills y 3 subagentes</li>
-<li style="padding-top: 12px; border-top: 2px solid #E9ECF1">4 workflows</li>
-<li style="padding-top: 12px; border-top: 2px solid #E9ECF1">labels <code>tipo:</code> <code>area:</code> <code>prioridad:</code> <code>estado:</code></li>
-<li style="padding-top: 12px; border-top: 2px solid #E9ECF1">hub de docs</li>
-<li style="padding-top: 12px; border-top: 2px solid #E9ECF1">épicas, bloqueos, <code>/orquestar</code> y modo releases</li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-muted)">13 skills y 3 subagentes</li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-muted)">4 workflows</li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-muted)">labels <code>tipo:</code> <code>area:</code> <code>prioridad:</code> <code>estado:</code></li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-muted)">hub de docs</li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-muted)">épicas, bloqueos, <code>/orquestar</code> y modo releases</li>
 </ul>
 </div>
-<div style="background: #E9ECF1; border-radius: 20px; padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; gap: 20px">
+<div style="background: var(--surface-muted); border-radius: 20px; padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; gap: 20px">
 <div style="display: flex; flex-direction: column; gap: 6px">
-<h3 style="margin: 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 30px; line-height: 1.1">--chico</h3>
-<div style="font-size: 14px; color: #14161A">Para una o dos personas.</div>
+<h3 style="margin: 0; font-family: var(--font-mono); font-weight: 500; font-size: 30px; line-height: 1.1">--chico</h3>
+<div style="font-size: 14px; color: var(--ink)">Para una o dos personas.</div>
 </div>
 <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 15px">
-<li style="padding-top: 12px; border-top: 2px solid #FFFFFF">6 skills: <code style="background: #FFFFFF">implement-issue</code> <code style="background: #FFFFFF">crear-issue</code> <code style="background: #FFFFFF">debug</code> <code style="background: #FFFFFF">update-docs</code> <code style="background: #FFFFFF">add-member</code> <code style="background: #FFFFFF">remove-member</code></li>
-<li style="padding-top: 12px; border-top: 2px solid #FFFFFF">2 workflows</li>
-<li style="padding-top: 12px; border-top: 2px solid #FFFFFF">7 labels: <code style="background: #FFFFFF">tipo:</code> y <code style="background: #FFFFFF">prioridad:</code></li>
-<li style="padding-top: 12px; border-top: 2px solid #FFFFFF">un solo archivo de arquitectura</li>
-<li style="padding-top: 12px; border-top: 2px solid #FFFFFF">y los ADRs</li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-raised)">6 skills: <code style="background: var(--surface-raised)">implement-issue</code> <code style="background: var(--surface-raised)">crear-issue</code> <code style="background: var(--surface-raised)">debug</code> <code style="background: var(--surface-raised)">update-docs</code> <code style="background: var(--surface-raised)">add-member</code> <code style="background: var(--surface-raised)">remove-member</code></li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-raised)">2 workflows</li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-raised)">7 labels: <code style="background: var(--surface-raised)">tipo:</code> y <code style="background: var(--surface-raised)">prioridad:</code></li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-raised)">un solo archivo de arquitectura</li>
+<li style="padding-top: 12px; border-top: 2px solid var(--surface-raised)">y los ADRs</li>
 </ul>
 </div>
 </div>
-<div style="display: flex; flex-direction: column; gap: 16px"><h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; line-height: 1.1">Rama base</h3><p style="margin: 0; font-size: 15px">El segundo argumento del init define a dónde van los PRs.</p><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px"><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><code style="align-self: flex-start">init-plantilla.sh "X" main</code><div style="font-size: 14px; color: #2B59FF; font-weight: 500">rama → main</div><p style="margin: 0; font-size: 15px; color: #5A6270">Proyecto nuevo, sin usuarios todavía.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><code style="align-self: flex-start">init-plantilla.sh "X" develop</code><div style="font-size: 14px; color: #2B59FF; font-weight: 500">rama → develop → main</div><p style="margin: 0; font-size: 15px; color: #5A6270">Separar integración de producción.</p></div><div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><code style="align-self: flex-start">init-plantilla.sh "X" develop releases</code><div style="font-size: 14px; color: #2B59FF; font-weight: 500">rama → develop → release/vX.Y.Z → main</div><p style="margin: 0; font-size: 15px; color: #5A6270">Ya hay usuarios: cada versión se congela y se prueba en staging.</p></div></div></div>
+<div style="display: flex; flex-direction: column; gap: 16px"><h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 28px; line-height: 1.1">Rama base</h3><p style="margin: 0; font-size: 15px">El segundo argumento del init define a dónde van los PRs.</p><div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px"><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><code style="align-self: flex-start">init-plantilla.sh "X" main</code><div style="font-size: 14px; color: var(--accent); font-weight: 500">rama → main</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Proyecto nuevo, sin usuarios todavía.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><code style="align-self: flex-start">init-plantilla.sh "X" develop</code><div style="font-size: 14px; color: var(--accent); font-weight: 500">rama → develop → main</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Separar integración de producción.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><code style="align-self: flex-start">init-plantilla.sh "X" develop releases</code><div style="font-size: 14px; color: var(--accent); font-weight: 500">rama → develop → release/vX.Y.Z → main</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Ya hay usuarios: cada versión se congela y se prueba en staging.</p></div></div></div>
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; font-size: 16px">
-<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px">¿El proyecto creció?</span>
+<span style="font-family: var(--font-display); font-weight: 600; font-size: 22px">¿El proyecto creció?</span>
 <span><code>python3 scripts/crecer.py</code> lo pasa al modo completo (con <code>--releases</code> si querés ese flujo). Lo que nunca tocaste se reemplaza; lo que modificaste queda intacto y la versión completa espera en <code>.agent-kit/pendientes/</code>. No commitea: revisás el diff y abrís un PR.</span>
 </div>
 </section>
@@ -334,119 +389,119 @@ pre{margin:0}
 <!-- EMPEZAR -->
 <section id="empezar" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Empezar</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Seis pasos y a volar.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Empezar</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Seis pasos y a volar.</h2>
 </div>
 <ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 24px">
 
-<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid #E9ECF1">
-<div style="flex: 0 0 64px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: #2B59FF">1</div>
+<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid var(--surface-muted)">
+<div style="flex: 0 0 64px; font-family: var(--font-display); font-weight: 800; font-size: 44px; line-height: 1; color: var(--accent)">1</div>
 <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.2">Creá el repo</h3>
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.2">Creá el repo</h3>
 <p style="margin: 0; font-size: 15px">Botón “Use this template” en GitHub, y cloná el repo nuevo.</p>
-<div><a href="https://github.com/lautioliver/barrilete-kit/generate" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; background: #2B59FF; color: #FFFFFF; border-radius: 12px; text-decoration: none; font-weight: 500; font-size: 15px; box-sizing: border-box">Use this template</a></div>
+<div><a class="btn" href="https://github.com/lautioliver/barrilete-kit/generate" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; background: var(--accent); color: var(--surface-raised); border-radius: 12px; text-decoration: none; font-weight: 500; font-size: 15px; box-sizing: border-box">Use this template</a></div>
 </div>
 </li>
 
-<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid #E9ECF1">
-<div style="flex: 0 0 64px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: #2B59FF">2</div>
+<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid var(--surface-muted)">
+<div style="flex: 0 0 64px; font-family: var(--font-display); font-weight: 800; font-size: 44px; line-height: 1; color: var(--accent)">2</div>
 <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.2">Inicializá</h3>
-<div style="background: #14161A; border-radius: 20px; overflow: hidden">
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 20px; border-bottom: 1px solid #2A2F38">
-<span style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #8FB0FF">bash</span>
-<button type="button" data-copy="init" aria-label="Copiar comandos de inicialización" style="min-height: 44px; padding: 0 16px; background: transparent; color: #E9ECF1; border: 1px solid #5A6270; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; cursor: pointer">Copiar</button>
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.2">Inicializá</h3>
+<div style="background: var(--ink); border-radius: 20px; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 20px; border-bottom: 1px solid var(--hairline-inverse)">
+<span style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-on-inverse)">bash</span>
+<button type="button" data-copy="init" aria-label="Copiar comandos de inicialización" style="min-height: 44px; padding: 0 16px; background: transparent; color: var(--surface-muted); border: 1px solid var(--ink-muted); border-radius: 12px; font-family: var(--font-mono); font-size: 13px; cursor: pointer">Copiar</button>
 </div>
 <div style="overflow-x: auto; padding: 20px">
-<pre style="font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.7; color: #E9ECF1; white-space: pre">./scripts/init-plantilla.sh "Nombre del proyecto" main
-<span style="color: #8FB0FF"># proyecto chico:</span>
+<pre style="font-family: var(--font-mono); font-size: 14px; line-height: 1.7; color: var(--surface-muted); white-space: pre">./scripts/init-plantilla.sh "Nombre del proyecto" main
+<span style="color: var(--accent-on-inverse)"># proyecto chico:</span>
 ./scripts/init-plantilla.sh "Nombre del proyecto" main --chico</pre>
 </div>
 </div>
 </div>
 </li>
 
-<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid #E9ECF1">
-<div style="flex: 0 0 64px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: #2B59FF">3</div>
+<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid var(--surface-muted)">
+<div style="flex: 0 0 64px; font-family: var(--font-display); font-weight: 800; font-size: 44px; line-height: 1; color: var(--accent)">3</div>
 <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.2">Completá los <code>TODO:</code></h3>
-<div style="background: #14161A; border-radius: 20px; overflow: hidden">
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 20px; border-bottom: 1px solid #2A2F38">
-<span style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #8FB0FF">bash</span>
-<button type="button" data-copy="todo" aria-label="Copiar comando para buscar TODO" style="min-height: 44px; padding: 0 16px; background: transparent; color: #E9ECF1; border: 1px solid #5A6270; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 13px; cursor: pointer">Copiar</button>
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.2">Completá los <code>TODO:</code></h3>
+<div style="background: var(--ink); border-radius: 20px; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 20px; border-bottom: 1px solid var(--hairline-inverse)">
+<span style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-on-inverse)">bash</span>
+<button type="button" data-copy="todo" aria-label="Copiar comando para buscar TODO" style="min-height: 44px; padding: 0 16px; background: transparent; color: var(--surface-muted); border: 1px solid var(--ink-muted); border-radius: 12px; font-family: var(--font-mono); font-size: 13px; cursor: pointer">Copiar</button>
 </div>
 <div style="overflow-x: auto; padding: 20px">
-<pre style="font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.7; color: #E9ECF1; white-space: pre">grep -rn "TODO:" .</pre>
+<pre style="font-family: var(--font-mono); font-size: 14px; line-height: 1.7; color: var(--surface-muted); white-space: pre">grep -rn "TODO:" .</pre>
 </div>
 </div>
 <p style="margin: 0; font-size: 15px">Lo más importante es <code>docs/mapa-agentes.json</code>: rutas reales de schema, auth, pagos y API pública. El check de docs falla a propósito mientras queden rutas <code>TODO/</code>: con rutas de ejemplo, un agente nunca detectaría que tocó algo sensible.</p>
 </div>
 </li>
-<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid #E9ECF1">
-<div style="flex: 0 0 64px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: #2B59FF">4</div>
+<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid var(--surface-muted)">
+<div style="flex: 0 0 64px; font-family: var(--font-display); font-weight: 800; font-size: 44px; line-height: 1; color: var(--accent)">4</div>
 <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.2">Cargá al equipo</h3>
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.2">Cargá al equipo</h3>
 <p style="margin: 0; font-size: 15px"><code>/add-member @usuario</code> por cada integrante, con las áreas que cubre. Desde ahí, cada issue que creen los agentes nace asignado.</p>
 </div>
 </li>
-<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid #E9ECF1">
-<div style="flex: 0 0 64px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: #2B59FF">5</div>
+<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid var(--surface-muted)">
+<div style="flex: 0 0 64px; font-family: var(--font-display); font-weight: 800; font-size: 44px; line-height: 1; color: var(--accent)">5</div>
 <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.2">Creá los labels</h3>
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.2">Creá los labels</h3>
 <p style="margin: 0; font-size: 15px"><b>Actions → Labels → Run workflow</b>.</p>
 </div>
 </li>
-<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid #E9ECF1">
-<div style="flex: 0 0 64px; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1; color: #2B59FF">6</div>
+<li style="display: flex; flex-wrap: wrap; gap: 16px 32px; padding-top: 24px; border-top: 2px solid var(--surface-muted)">
+<div style="flex: 0 0 64px; font-family: var(--font-display); font-weight: 800; font-size: 44px; line-height: 1; color: var(--accent)">6</div>
 <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
-<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; line-height: 1.2">¿Usás Cursor?</h3>
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.2">¿Usás Cursor?</h3>
 <p style="margin: 0; font-size: 15px">Enlazá las skills: <code>ln -s ../.claude/skills .cursor/skills</code>.</p>
 </div>
 </li>
 </ol>
-<div style="background: #E9ECF1; border-radius: 20px; padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; font-size: 14px; color: #14161A">
+<div style="background: var(--surface-muted); border-radius: 20px; padding: 20px 24px; display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; font-size: 14px; color: var(--ink)">
 <span style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500">Requisitos</span>
 <span>GitHub con sub-issues y dependencias de issues</span>
 <span>·</span>
-<span>agentes con push a <code style="background: #FFFFFF">agentes/retros</code></span>
+<span>agentes con push a <code style="background: var(--surface-raised)">agentes/retros</code></span>
 <span>·</span>
-<span><code style="background: #FFFFFF">gh</code> autenticado</span>
+<span><code style="background: var(--surface-raised)">gh</code> autenticado</span>
 <span>·</span>
-<span><code style="background: #FFFFFF">jq</code> y <code style="background: #FFFFFF">python3</code></span>
+<span><code style="background: var(--surface-raised)">jq</code> y <code style="background: var(--surface-raised)">python3</code></span>
 </div>
 </section>
 
 <!-- GLOSARIO -->
 <section id="glosario" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #5A6270; font-weight: 500">Glosario</div>
-<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Diccionario de a bordo.</h2>
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">Glosario</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Diccionario de a bordo.</h2>
 <p style="margin: 0; font-size: 16px; max-width: 640px">Las palabras técnicas de esta página, en una línea cada una.</p>
 </div>
 <dl style="margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); column-gap: 40px; row-gap: 0">
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Agente de código</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Un modelo de IA (Claude Code, Cursor) que lee, escribe y ejecuta código en tu repo.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Plantilla de repo</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Un repo de GitHub que se copia como punto de partida para uno nuevo, con todos sus archivos.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500"><code>AGENTS.md</code></dt><dd style="margin: 0; font-size: 15px; color: #5A6270">El archivo con las reglas que el agente lee antes de trabajar. <code>CLAUDE.md</code> y <code>llms.txt</code> apuntan a él.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Skill</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Una receta escrita que el agente sigue para una tarea concreta. Las que empiezan con <code>/</code> se invocan como comando.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">ADR</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Architecture Decision Record: un documento corto que registra una decisión técnica, por qué se tomó y qué se descartó.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Issue</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Una tarea, bug o pedido registrado en GitHub, con sus criterios de aceptación.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Épica</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Un issue grande que agrupa varios sub-issues de la misma funcionalidad.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Bloqueo</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Una dependencia entre issues: uno no se puede empezar hasta que se cierre el otro.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">PR</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Pull request: el pedido para sumar los cambios de una rama a la principal, donde se revisan.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Merge</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Aceptar un PR e integrar sus cambios a la rama principal.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Label</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Una etiqueta en issues y PRs (<code>tipo:</code>, <code>estado:</code>…) para clasificarlos y filtrarlos.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">CI</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Integración continua: checks automáticos que corren en cada PR y fallan si algo se rompió.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Workflow</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Un archivo de GitHub Actions (<code>.yml</code>) que automatiza algo: correr tests, sincronizar labels, desbloquear issues.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">TDD</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Test-driven development: primero escribís el test que falla (rojo), después el código que lo hace pasar (verde).</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Lint y typecheck</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Revisiones automáticas de estilo y de tipos que encuentran errores sin ejecutar el código.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Test de regresión</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Un test que reproduce un bug ya arreglado, para que no vuelva a aparecer.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Migración y schema</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">El schema es la estructura de la base de datos; una migración es el cambio versionado que la modifica.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Backfill y rollback</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Backfill: completar datos existentes tras un cambio de schema. Rollback: el camino para deshacerlo.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Rutas sensibles</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Partes del código donde un error cuesta caro (auth, pagos, schema, API pública) y piden revisión extra.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Retro</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Notas de qué salió bien y qué no al cerrar un trabajo. Alimentan a <code>/mejorar-skills</code>.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500"><code>gh</code> y <code>jq</code></dt><dd style="margin: 0; font-size: 15px; color: #5A6270"><code>gh</code> es la CLI oficial de GitHub; <code>jq</code> procesa JSON desde la terminal.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Subagente</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Un agente lanzado por otro para una tarea acotada, con su propio modelo y contexto.</dd></div>
-<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid #E9ECF1"><dt style="font-weight: 500">Worktree</dt><dd style="margin: 0; font-size: 15px; color: #5A6270">Una copia de trabajo extra del mismo repo git, para que cada agente trabaje en su rama sin pisar a los demás.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Agente de código</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Un modelo de IA (Claude Code, Cursor) que lee, escribe y ejecuta código en tu repo.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Plantilla de repo</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Un repo de GitHub que se copia como punto de partida para uno nuevo, con todos sus archivos.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500"><code>AGENTS.md</code></dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">El archivo con las reglas que el agente lee antes de trabajar. <code>CLAUDE.md</code> y <code>llms.txt</code> apuntan a él.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Skill</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Una receta escrita que el agente sigue para una tarea concreta. Las que empiezan con <code>/</code> se invocan como comando.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">ADR</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Architecture Decision Record: un documento corto que registra una decisión técnica, por qué se tomó y qué se descartó.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Issue</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Una tarea, bug o pedido registrado en GitHub, con sus criterios de aceptación.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Épica</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Un issue grande que agrupa varios sub-issues de la misma funcionalidad.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Bloqueo</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Una dependencia entre issues: uno no se puede empezar hasta que se cierre el otro.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">PR</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Pull request: el pedido para sumar los cambios de una rama a la principal, donde se revisan.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Merge</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Aceptar un PR e integrar sus cambios a la rama principal.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Label</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Una etiqueta en issues y PRs (<code>tipo:</code>, <code>estado:</code>…) para clasificarlos y filtrarlos.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">CI</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Integración continua: checks automáticos que corren en cada PR y fallan si algo se rompió.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Workflow</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Un archivo de GitHub Actions (<code>.yml</code>) que automatiza algo: correr tests, sincronizar labels, desbloquear issues.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">TDD</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Test-driven development: primero escribís el test que falla (rojo), después el código que lo hace pasar (verde).</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Lint y typecheck</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Revisiones automáticas de estilo y de tipos que encuentran errores sin ejecutar el código.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Test de regresión</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Un test que reproduce un bug ya arreglado, para que no vuelva a aparecer.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Migración y schema</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">El schema es la estructura de la base de datos; una migración es el cambio versionado que la modifica.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Backfill y rollback</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Backfill: completar datos existentes tras un cambio de schema. Rollback: el camino para deshacerlo.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Rutas sensibles</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Partes del código donde un error cuesta caro (auth, pagos, schema, API pública) y piden revisión extra.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Retro</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Notas de qué salió bien y qué no al cerrar un trabajo. Alimentan a <code>/mejorar-skills</code>.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500"><code>gh</code> y <code>jq</code></dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>gh</code> es la CLI oficial de GitHub; <code>jq</code> procesa JSON desde la terminal.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Subagente</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Un agente lanzado por otro para una tarea acotada, con su propio modelo y contexto.</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Worktree</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Una copia de trabajo extra del mismo repo git, para que cada agente trabaje en su rama sin pisar a los demás.</dd></div>
 </dl>
 </section>
 
@@ -454,9 +509,9 @@ pre{margin:0}
 <footer style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 48px; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
-<svg viewBox="0 0 160 140" width="48" height="42" role="img" aria-label="Barrilete"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle cx="66" cy="75" r="7" fill="#8FB0FF"></circle><circle cx="94" cy="75" r="7" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
+<svg class="bot" viewBox="0 0 160 140" width="48" height="42" role="img" aria-label="Barrilete"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="28" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="126" y="18" width="6" height="18" rx="3" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#E9ECF1"></rect><rect x="38" y="52" width="84" height="46" rx="18" fill="#14161A"></rect><circle class="eye" cx="66" cy="75" r="7" fill="#8FB0FF"></circle><circle class="eye" cx="94" cy="75" r="7" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
 <span style="font-size: 15px">Hecho en Salta por Lautaro Oliver</span>
-<span style="display: inline-block; background: #B4122B; color: #FFFFFF; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 6px; border-bottom: 3px solid #14161A; line-height: 1.4">SALTA DEV</span>
+<span style="display: inline-block; background: var(--rienda); color: var(--surface-raised); font-size: 12px; font-weight: 500; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 6px; border-bottom: 3px solid var(--ink); line-height: 1.4">SALTA DEV</span>
 </div>
 <nav aria-label="Pie" style="display: flex; gap: 24px; font-size: 15px">
 <a href="https://github.com/lautioliver/barrilete-kit" style="padding: 10px 0">GitHub</a>
@@ -466,9 +521,9 @@ pre{margin:0}
 </div>
 <div role="img" aria-label="Línea de los dos puntos de control: plan y merge" style="display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 500">
 <span>plan</span>
-<span style="width: 18px; height: 18px; border-radius: 50%; background: #FFB020; flex: none"></span>
-<span style="flex: 1 1 auto; min-width: 16px; height: 4px; background: #B4122B; border-bottom: 2px solid #14161A"></span>
-<span style="width: 18px; height: 18px; border-radius: 50%; background: #FFB020; flex: none"></span>
+<span style="width: 18px; height: 18px; border-radius: 50%; background: var(--nudo); flex: none" class="pulse"></span>
+<span class="hilo" style="flex: 1 1 auto; min-width: 16px; height: 4px; background: var(--rienda); border-bottom: 2px solid var(--ink)"></span>
+<span style="width: 18px; height: 18px; border-radius: 50%; background: var(--nudo); flex: none" class="pulse"></span>
 <span>merge</span>
 </div>
 </footer>
@@ -476,7 +531,41 @@ pre{margin:0}
 </div>
 <script>
 const CMDS={init:'./scripts/init-plantilla.sh "Nombre del proyecto" main\n# proyecto chico:\n./scripts/init-plantilla.sh "Nombre del proyecto" main --chico',todo:'grep -rn "TODO:" .'};
-document.querySelectorAll('[data-copy]').forEach(b=>{let t;b.addEventListener('click',()=>{try{navigator.clipboard&&navigator.clipboard.writeText(CMDS[b.dataset.copy])}catch(e){}b.textContent='Copiado';clearTimeout(t);t=setTimeout(()=>b.textContent='Copiar',1600)})});
+document.querySelectorAll('[data-copy]').forEach(b=>{let t;b.addEventListener('click',()=>{const done=()=>{b.textContent='Copiado';clearTimeout(t);t=setTimeout(()=>b.textContent='Copiar',1600)};const sel=()=>{const pre=b.closest('div').parentElement.querySelector('pre');const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Seleccionado'};try{navigator.clipboard.writeText(CMDS[b.dataset.copy]).then(done,sel)}catch(e){sel()}return;b.textContent='Copiado';clearTimeout(t);t=setTimeout(()=>b.textContent='Copiar',1600)})});
 </script>
-</body>
-</html>
+<script>
+(()=>{
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+// barra de progreso: la rienda que se desenrolla al bajar
+const bar=document.getElementById('progreso');
+const prog=()=>{const h=document.documentElement;const m=h.scrollHeight-innerHeight;bar.style.transform='scaleX('+(m>0?Math.min(1,scrollY/m):0)+')'};
+addEventListener('scroll',prog,{passive:true});prog();
+// reveal: todo es visible en reposo; al entrar en pantalla repite una subida corta
+if('IntersectionObserver' in window&&!reduce){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visto');io.unobserve(e.target)}}),{rootMargin:'0px 0px -8% 0px'});
+  requestAnimationFrame(()=>document.querySelectorAll('.reveal').forEach(el=>{if(el.getBoundingClientRect().top>innerHeight)io.observe(el)}));
+}
+// hero: el dron flota, la correa lo sigue, los ojos miran el puntero, click para tirar de la rienda
+const dron=document.getElementById('dron'),correa=document.getElementById('correa'),ojos=document.getElementById('ojos');
+if(!dron||!correa||!ojos)return;
+const svg=dron.ownerSVGElement;
+let tug=0,ex=0,ey=0,tx=0,ty=0;const t0=performance.now();
+addEventListener('pointermove',e=>{const r=svg.getBoundingClientRect();const cx=r.left+r.width*.5,cy=r.top+r.height*.29;const dx=e.clientX-cx,dy=e.clientY-cy,d=Math.hypot(dx,dy)||1;const k=Math.min(1,d/300);tx=dx/d*5*k;ty=dy/d*4*k},{passive:true});
+const tirar=()=>{tug=1};
+dron.addEventListener('click',tirar);
+dron.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tirar()}});
+if(reduce)return;
+const frame=now=>{
+  const t=(now-t0)/1000;
+  let y=-6*Math.sin(t*2.1);
+  if(tug>0){y+=22*Math.sin((1-tug)*Math.PI);tug=Math.max(0,tug-0.02)}
+  const rot=1.5*Math.sin(t*1.3);
+  dron.setAttribute('transform','translate(0 '+y.toFixed(2)+') rotate('+rot.toFixed(2)+' 200 120)');
+  if(t>1.5){const a=tug*16*Math.sin(now/70);correa.setAttribute('d','M200 '+(166+y).toFixed(2)+' Q'+(200+a).toFixed(2)+' '+(220+y*.6).toFixed(2)+' 150 236 Q'+(100-a*.6).toFixed(2)+' 252 140 300 Q170 336 250 340')}
+  ex+=(tx-ex)*.12;ey+=(ty-ey)*.12;ojos.setAttribute('transform','translate('+ex.toFixed(2)+' '+ey.toFixed(2)+')');
+  requestAnimationFrame(frame)};
+requestAnimationFrame(frame);
+})();
+</script>
+
+</body></html>
