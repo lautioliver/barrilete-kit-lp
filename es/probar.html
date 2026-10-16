@@ -19,20 +19,19 @@
 <a class="marca" href="/es/"><svg class="bot" viewBox="0 0 160 140" width="32" height="28" aria-hidden="true"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#14161A"></rect><circle class="eye" cx="62" cy="75" r="13" fill="#8FB0FF"></circle><circle class="eye" cx="98" cy="75" r="13" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><span>barrilete-kit</span></a>
 <nav aria-label="Principal"><a href="/es/">Inicio</a><a href="/es/docs.html">Documentación</a><a href="/es/probar.html" aria-current="page">Probarla</a></nav>
 <div class="cab-der">
-<nav class="idioma" aria-label="Idioma"><span aria-current="true" lang="es">Español</span><a href="/probar.html" hreflang="en" lang="en" title="Cambiar a inglés">English</a></nav>
+<nav class="idioma" aria-label="Idioma"><span aria-current="true" lang="es">Español</span><a href="/probar.html" hreflang="en" lang="en" title="Switch to English">English</a></nav>
 <a class="boton-borde" href="https://github.com/lautioliver/barrilete-kit/blob/main/README.es.md">GitHub</a>
 </div>
 </header>
 <div class="docs">
 <aside class="indice" aria-label="En esta página">
 <div class="ceja">En esta página</div>
-<ol><li><a href="#antes-de-empezar">Antes de empezar</a></li><li><a href="#pasos">Pasos</a></li><li><a href="#qu-anotar">Qué anotar</a></li><li><a href="#c-mo-contarlo">Cómo contarlo</a></li></ol>
+<ol><li><a href="#antes-de-empezar">Antes de empezar</a></li><li><a href="#pasos">Pasos</a></li><li><a href="#que-anotar">Qué anotar</a></li><li><a href="#como-contarlo">Cómo contarlo</a></li></ol>
 </aside>
 <main id="contenido" class="contenido">
 <div class="ceja">Prueba externa</div>
 <h1>Probar la plantilla</h1>
 <p>Gracias por probarla. Lo que más sirve es saber <b>dónde te trabaste</b>, no si te gustó.</p>
-<p>Leé esta guía <a href="https://github.com/lautioliver/barrilete-kit/blob/main/docs/try-the-template.es.md">en el repo de la plantilla</a>, no en tu copia: <code>init-template.sh</code> la borra en el paso 2.</p>
 <p><b>Tiempo:</b> de 1 a 2 horas. <b>Herramienta:</b> la que uses todos los días (Claude Code, Codex, Copilot, Cursor…). Si no es Claude Code, mejor: es lo que menos se probó.</p>
 <p>Los pasos usan los comandos de Claude Code (<code>/implement-issue 3</code>). En otra herramienta, si no reconoce el comando, pedíselo por nombre: "seguí la skill implement-issue (<code>.claude/skills/implement-issue/SKILL.md</code>) para el issue 3". Anotá si tuviste que hacerlo: también es un dato.</p>
 <h2 id="antes-de-empezar">Antes de empezar</h2>
@@ -40,9 +39,9 @@
 <h2 id="pasos">Pasos</h2>
 <p>Hacelos en orden y anotá qué pasó en cada uno. Si algo no anda, no lo arregles en silencio: anotalo y seguí como puedas.</p>
 <ol><li><b>Crear el repo:</b> en GitHub, <b>Use this template → Create a new repository</b>, y clonalo.</li><li><b>Inicializar:</b> seguí el <a href="/es/docs.html#empezar">README</a>. Elegí el modo que te corresponda: chico si son una o dos personas.</li><li><b>Completar lo mínimo:</b> los <code>TODO:</code> que el README marca como mínimos. Anotá cuánto tardaste y qué no entendiste.</li><li><b>Labels y equipo:</b> corré el workflow Labels y, en modo completo, sumá a tu equipo con <code>/add-member</code>.</li><li><b>Un issue desde el chat:</b> pedile al agente algo real y chico ("abrí un issue para …").</li><li><b>Del issue al PR:</b> <code>/implement-issue &lt;n&gt;</code>. No lo mergees sin leerlo.</li><li><b>Revisión</b> (modo completo): <code>/review-pr &lt;n&gt;</code> desde <b>otra sesión</b>.</li><li><b>Merge:</b> lo hacés vos.</li><li><b>Si te queda tiempo:</b> <code>/orchestrate</code> con dos o tres issues (modo completo, Claude Code), o repetí los pasos 5 a 7 en otra herramienta.</li></ol>
-<h2 id="qu-anotar">Qué anotar</h2>
+<h2 id="que-anotar">Qué anotar</h2>
 <ul><li><b>Dónde te trabaste:</b> el paso, qué hiciste y el error textual.</li><li><b>Qué leíste dos veces</b> sin entenderlo.</li><li><b>Qué hiciste a mano</b> cuando esperabas que lo hiciera el agente, o al revés.</li><li><b>Qué hizo el agente que no esperabas:</b> se frenó, preguntó de más, se salteó algo, tocó lo que no debía.</li><li><b>Cuánto tardaste</b> en llegar al primer PR.</li><li><b>Si la volverías a usar</b> y qué cambiarías primero.</li></ul>
-<h2 id="c-mo-contarlo">Cómo contarlo</h2>
+<h2 id="como-contarlo">Cómo contarlo</h2>
 <p>Abrí un issue con el formulario <a href="https://github.com/lautioliver/barrilete-kit/issues/new?template=5-trial.yml"><b>Reporte de prueba</b></a> (<code>.github/ISSUE_TEMPLATE/5-trial.yml</code>). Usá un reporte por prueba, aunque te hayas trabado en varios pasos. Pegá los errores textuales y <b>sacá los secretos y los datos personales</b> antes de pegar.</p>
 </main>
 </div>
