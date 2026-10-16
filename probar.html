@@ -1,53 +1,53 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Probar barrilete-kit</title>
-<meta name="description" content="Guía para probar barrilete-kit en un repo propio: pasos, qué anotar y cómo reportarlo.">
+<title>Try barrilete-kit</title>
+<meta name="description" content="Guide to try barrilete-kit in your own repo: steps, what to note and how to report it.">
+<link rel="canonical" href="https://barrilete-kit-lp.vercel.app/probar.html">
+<link rel="alternate" hreflang="en" href="https://barrilete-kit-lp.vercel.app/probar.html">
+<link rel="alternate" hreflang="es" href="https://barrilete-kit-lp.vercel.app/es/probar.html">
+<link rel="alternate" hreflang="x-default" href="https://barrilete-kit-lp.vercel.app/probar.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
-<link rel="stylesheet" href="docs.css">
+<link rel="stylesheet" href="/docs.css">
 </head>
 <body>
-<a class="saltar" href="#contenido">Saltar al contenido</a>
+<a class="saltar" href="#contenido">Skip to content</a>
 <header class="cab">
-<a class="marca" href="index.html"><svg class="bot" viewBox="0 0 160 140" width="32" height="28" aria-hidden="true"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#14161A"></rect><circle class="eye" cx="62" cy="75" r="13" fill="#8FB0FF"></circle><circle class="eye" cx="98" cy="75" r="13" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><span>barrilete-kit</span></a>
-<nav aria-label="Principal"><a href="index.html">Inicio</a><a href="docs.html">Documentación</a><a href="probar.html" aria-current="page">Probarla</a></nav>
-<a class="boton-borde" href="https://github.com/lautioliver/barrilete-kit">GitHub</a>
+<a class="marca" href="/"><svg class="bot" viewBox="0 0 160 140" width="32" height="28" aria-hidden="true"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#14161A"></rect><circle class="eye" cx="62" cy="75" r="13" fill="#8FB0FF"></circle><circle class="eye" cx="98" cy="75" r="13" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg><span>barrilete-kit</span></a>
+<nav aria-label="Main"><a href="/">Home</a><a href="/docs.html">Documentation</a><a href="/probar.html" aria-current="page">Try it</a></nav>
+<div class="cab-der">
+<nav class="idioma" aria-label="Language"><span aria-current="true" lang="en">English</span><a href="/es/probar.html" hreflang="es" lang="es" title="Cambiar a español">Español</a></nav>
+<a class="boton-borde" href="https://github.com/lautioliver/barrilete-kit/blob/main/README.md">GitHub</a>
+</div>
 </header>
 <div class="docs">
-<aside class="indice" aria-label="En esta página">
-<div class="ceja">En esta página</div>
-<ol><li><a href="#antes">Antes de empezar</a></li><li><a href="#pasos">Pasos</a></li><li><a href="#otras-herramientas">Si usás Codex, Copilot o Cursor</a></li><li><a href="#que-anotar">Qué anotar</a></li><li><a href="#como-contarlo">Cómo contarlo</a></li></ol>
+<aside class="indice" aria-label="On this page">
+<div class="ceja">On this page</div>
+<ol><li><a href="#before-you-start">Before you start</a></li><li><a href="#steps">Steps</a></li><li><a href="#what-to-note">What to note</a></li><li><a href="#how-to-report-it">How to report it</a></li></ol>
 </aside>
 <main id="contenido" class="contenido">
-<div class="ceja">Prueba externa</div>
-<h1>Probá la plantilla y contame dónde te trabaste.</h1>
-<p>Te pido una o dos horas para usar la plantilla en un repo tuyo y contarme <b>dónde te trabaste</b>. No hace falta que te guste: lo que más sirve es saber qué no se entiende o no anda.</p>
-<h2 id="antes">Antes de empezar</h2>
-<p>Plantilla: <a href="https://github.com/lautioliver/barrilete-kit">lautioliver/barrilete-kit</a>, versión <a href="https://github.com/lautioliver/barrilete-kit/releases/tag/v0.9.0">v0.9.0</a>.</p>
-<ul><li><b>Un repo donde puedas romper cosas.</b> Puede ser un proyecto chico real o uno nuevo de prueba.</li><li><b>Herramientas:</b> <code>gh</code> autenticado (<code>gh auth status</code>), <code>git</code>, <code>jq</code> y <code>python3</code>. En Windows, solo con WSL.</li><li><b>El agente que uses todos los días:</b> Claude Code, Codex, Copilot o Cursor. Si no es Claude Code, mejor: es lo que menos se probó.</li><li><b>Una nota abierta.</b> Anotá en el momento: después se olvida dónde dudaste.</li></ul>
-<p>Si usás Claude Code, <b>abrí la sesión en la raíz del repo</b>. Desde un subdirectorio no carga la configuración y las protecciones no corren.</p>
-<h2 id="pasos">Pasos</h2>
-<p>Hacelos en orden y anotá qué pasó en cada uno. Si algo no anda, no lo arregles en silencio: anotalo y seguí como puedas.</p>
-<ol><li><b>Crear el repo.</b> En GitHub, en la plantilla: <b>Use this template → Create a new repository</b>. Cloná el repo nuevo.</li><li><b>Inicializar.</b> En la raíz del repo: <code>./scripts/init-plantilla.sh &quot;Nombre del proyecto&quot; main</code>. Si son una o dos personas, agregá <code>--chico</code> al final. Commiteá lo que deja, incluido <code>.agent-kit.json</code>.</li><li><b>Completar lo mínimo.</b> Buscá los pendientes con <code>grep -rn &quot;TODO:&quot; .</code> y completá al menos <code>AGENTS.md</code>: qué es el proyecto, stack, comandos y convenciones. En modo completo, también las rutas de <code>docs/mapa-agentes.json</code>. Anotá cuánto tardaste y qué no entendiste.</li><li><b>Labels y equipo.</b> En GitHub, <b>Actions → Labels → Run workflow</b>. En modo completo, sumá a tu equipo con <code>/add-member @usuario</code>.</li><li><b>Un issue desde el chat.</b> Pedile al agente algo real y chico: "abrí un issue para …".</li><li><b>Del issue al PR.</b> <code>/implement-issue &lt;número&gt;</code>. Primero escribe tests que fallan, después el código, y abre un PR. No lo mergees sin leerlo.</li><li><b>Revisión</b> (modo completo). <code>/review-pr &lt;número&gt;</code> desde <b>otra sesión</b> del agente.</li><li><b>Merge.</b> Lo hacés vos. Si le pedís al agente que mergee, lo va a frenar a propósito: corrélo vos (en Claude Code, en el chat con <code>! gh pr merge &lt;número&gt;</code>).</li><li><b>Si te queda tiempo.</b> <code>/orquestar</code> con dos o tres issues (modo completo, Claude Code), o repetí los pasos 5 a 7 en otra herramienta.</li></ol>
-<h2 id="otras-herramientas">Si usás Codex, Copilot o Cursor</h2>
-<p>Nada de esto se probó todavía fuera de Claude Code: lo que sigue sale de la documentación de cada herramienta. Tu prueba es la que lo confirma o lo desmiente.</p>
-<div class="tabla"><table><thead><tr><th>Herramienta</th><th>Antes de empezar</th><th>Cómo invocar una skill</th></tr></thead><tbody><tr><td>Codex</td><td>Enlazá las skills: <code>mkdir -p .agents &amp;&amp; ln -s ../.claude/skills .agents/skills</code>. Confiá en el proyecto y aprobá el hook con <code>/hooks</code>.</td><td><code>$implement-issue</code> o <code>/skills</code></td></tr><tr><td>Copilot (VS Code, CLI o agente en la nube)</td><td>Nada. En VS Code, para las protecciones, activá <code>chat.useClaudeHooks</code>.</td><td>Por nombre, o <code>/implement-issue</code> en VS Code</td></tr><tr><td>Cursor</td><td>Nada.</td><td><code>/implement-issue</code></td></tr></tbody></table></div>
-<p>Si no reconoce el comando, pedile la skill por nombre: "seguí la skill implement-issue (<code>.claude/skills/implement-issue/SKILL.md</code>) para el issue 3". Anotá si tuviste que hacerlo.</p>
-<p>Comprobá estas tres cosas:</p>
-<ul><li><b>Reglas:</b> preguntale "¿qué no podés hacer sin consultar?". Tiene que citar la sección Autonomía de <code>AGENTS.md</code>.</li><li><b>Skills:</b> con el paso 6, tiene que tomar el issue, commitear primero los tests que fallan y abrir el PR sin mergearlo.</li><li><b>Protecciones:</b> pedile que corra <code>gh pr merge 999999</code>. Tiene que frenarlo antes de ejecutarlo.</li></ul>
-<h2 id="que-anotar">Qué anotar</h2>
-<ul><li><b>Dónde te trabaste:</b> el paso, qué hiciste y el error textual.</li><li><b>Qué leíste dos veces</b> sin entenderlo.</li><li><b>Qué hiciste a mano</b> cuando esperabas que lo hiciera el agente, o al revés.</li><li><b>Qué hizo el agente que no esperabas:</b> se frenó, preguntó de más, se salteó algo, tocó lo que no debía.</li><li><b>Cuánto tardaste</b> en llegar al primer PR.</li><li><b>Si la volverías a usar</b> y qué cambiarías primero.</li></ul>
-<h2 id="como-contarlo">Cómo contarlo</h2>
-<p>Abrí un issue con el formulario <a href="https://github.com/lautioliver/barrilete-kit/issues/new?template=5-prueba.yml"><b>Reporte de prueba</b></a>. Pide la herramienta, el modo, hasta qué paso llegaste y lo que anotaste.</p>
-<ul><li>Usá un reporte por prueba, aunque te hayas trabado en varios pasos.</li><li>Pegá los errores textuales.</li><li><b>Sacá los secretos y los datos personales</b> antes de pegar.</li></ul>
+<div class="ceja">External trial</div>
+<h1>Try the template</h1>
+<p>Thanks for trying it. What helps most is knowing <b>where you got stuck</b>, not whether you liked it.</p>
+<p><b>Time:</b> 1 to 2 hours. <b>Tool:</b> the one you use every day (Claude Code, Codex, Copilot, Cursor…). If it isn't Claude Code, even better: that's what has been tested the least.</p>
+<p>The steps use the Claude Code commands (<code>/implement-issue 3</code>). In another tool, if it doesn't recognize the command, ask for it by name: "follow the implement-issue skill (<code>.claude/skills/implement-issue/SKILL.md</code>) for issue 3". Note whether you had to do that: it's also data.</p>
+<h2 id="before-you-start">Before you start</h2>
+<ul><li>A repo of yours where you can break things: a small real one or a new test one.</li><li><code>gh</code> authenticated (<code>gh auth status</code>), <code>jq</code> and <code>python3</code>.</li><li>An open note to jot things down. Write it down as it happens: later you forget where you hesitated.</li></ul>
+<h2 id="steps">Steps</h2>
+<p>Do them in order and note what happened in each one. If something doesn't work, don't fix it in silence: note it and keep going as best you can.</p>
+<ol><li><b>Create the repo:</b> on GitHub, <b>Use this template → Create a new repository</b>, and clone it.</li><li><b>Initialize:</b> follow the <a href="/docs.html#get-started">README</a>. Pick the mode that fits you: small if you are one or two people.</li><li><b>Fill in the minimum:</b> the <code>TODO:</code> markers that the README marks as minimum. Note how long it took and what you didn't understand.</li><li><b>Labels and team:</b> run the Labels workflow and, in full mode, add your team with <code>/add-member</code>.</li><li><b>An issue from the chat:</b> ask the agent for something real and small ("open an issue for …").</li><li><b>From issue to PR:</b> <code>/implement-issue &lt;n&gt;</code>. Don't merge it without reading it.</li><li><b>Review</b> (full mode): <code>/review-pr &lt;n&gt;</code> from <b>another session</b>.</li><li><b>Merge:</b> you do it.</li><li><b>If you have time left:</b> <code>/orchestrate</code> with two or three issues (full mode, Claude Code), or repeat steps 5 to 7 in another tool.</li></ol>
+<h2 id="what-to-note">What to note</h2>
+<ul><li><b>Where you got stuck:</b> the step, what you did and the exact error.</li><li><b>What you read twice</b> without understanding it.</li><li><b>What you did by hand</b> when you expected the agent to do it, or the other way around.</li><li><b>What the agent did that you didn't expect:</b> it stopped, asked too much, skipped something, touched what it shouldn't have.</li><li><b>How long it took</b> to get to the first PR.</li><li><b>Whether you would use it again</b> and what you would change first.</li></ul>
+<h2 id="how-to-report-it">How to report it</h2>
+<p>Open an issue with the <a href="https://github.com/lautioliver/barrilete-kit/issues/new?template=5-trial.yml"><b>Reporte de prueba</b></a> form (<code>.github/ISSUE_TEMPLATE/5-trial.yml</code>; its name and text are in Spanish for now). Use one report per trial, even if you got stuck in several steps. Paste the exact errors and <b>remove secrets and personal data</b> before pasting.</p>
 </main>
 </div>
 <footer class="pie">
-<span>Hecho en Salta por Lautaro Oliver</span>
-<nav aria-label="Pie"><a href="https://github.com/lautioliver/barrilete-kit">GitHub</a><a href="https://github.com/lautioliver/barrilete-kit/releases">Versiones</a><a href="https://github.com/lautioliver/barrilete-kit/blob/main/LICENSE">Licencia MIT</a></nav>
+<span>Made in Salta by Lautaro Oliver</span>
+<nav aria-label="Footer"><a href="https://github.com/lautioliver/barrilete-kit/blob/main/README.md">GitHub</a><a href="https://github.com/lautioliver/barrilete-kit/releases">Releases</a><a href="https://github.com/lautioliver/barrilete-kit/blob/main/LICENSE">MIT License</a></nav>
 </footer>
 </body>
 </html>

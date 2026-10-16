@@ -1,4 +1,4 @@
-/* Páginas de documentación (docs.html, probar.html). Mismos tokens que index.html: tema único claro, a propósito. */
+/* Páginas de documentación (docs.html, probar.html y sus versiones en /es/). Mismos tokens que index.html: tema único claro, a propósito. */
 :root{
   color-scheme: light;
   --surface:#f6f7f9; --surface-raised:#ffffff; --surface-muted:#e9ecf1;
@@ -24,6 +24,11 @@ h1,h2,h3,h4{font-family:var(--font-display);font-weight:800;text-wrap:balance;li
 .cab nav{display:flex;flex-wrap:wrap;gap:4px 24px;font-size:14px}
 .cab nav a{color:var(--ink);text-decoration:none;padding:10px 0;border-bottom:3px solid transparent}
 .cab nav a[aria-current=page]{border-bottom-color:var(--rienda)}
+.cab-der{margin-left:auto;display:flex;align-items:center;gap:16px}
+.idioma{display:flex;align-items:center;gap:4px;font-size:14px}
+.idioma>*{padding:10px 8px;border-bottom:3px solid transparent}
+.idioma a{color:var(--ink);text-decoration:none}
+.idioma [aria-current]{font-weight:500;border-bottom-color:var(--rienda)}
 .boton-borde{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:2px solid var(--ink);border-radius:12px;color:var(--ink);text-decoration:none;font-weight:500;font-size:14px}
 
 .docs{max-width:1200px;margin:0 auto;padding:clamp(32px,6vw,64px) var(--gutter) 0;display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px;align-items:start}
