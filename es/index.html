@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>barrilete-kit</title>
 <meta name="description" content="Plantilla de repo para agentes de código: reglas, skills, docs y ADRs para llevar una idea del plan al PR, mientras vos aprobás el plan y mergeás.">
@@ -93,7 +94,7 @@ h1,h2,h3{text-wrap:balance}
 <!-- NAV -->
 <header style="max-width: 1200px; margin: 0 auto; padding: 20px clamp(16px, 4vw, 40px); box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px">
 <a href="#top" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 500; font-size: 17px">
-<svg class="bot" viewBox="0 0 160 140" width="32" height="28" role="img" aria-label="Barrilete"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#14161A"></rect><circle class="eye" cx="62" cy="75" r="13" fill="#8FB0FF"></circle><circle class="eye" cx="98" cy="75" r="13" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
+<svg class="bot logo" viewBox="0 0 64 72" width="26" height="30" role="img" aria-label="Barrilete"><path d="M32 3 L55 27 L32 51 L9 27 Z" fill="#14161A"></path><path d="M32 11 L47 27 L32 43 L17 27 Z" fill="#E9ECF1" opacity="0.14"></path><circle class="eye" cx="25" cy="27" r="4.5" fill="#8FB0FF"></circle><circle class="eye" cx="39" cy="27" r="4.5" fill="#8FB0FF"></circle><path d="M32 51 C27 56 37 60 32 65 C29 68 33 70 32 71" stroke="#14161A" stroke-width="2.5" fill="none" stroke-linecap="round"></path><path d="M26 54 L32 57 L26 60 Z M38 54 L32 57 L38 60 Z" fill="#B4122B"></path><path d="M27 63 L32 66 L27 69 Z M37 63 L32 66 L37 69 Z" fill="#B4122B"></path></svg>
 <span>barrilete-kit</span>
 </a>
 <nav aria-label="Principal" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 24px; font-size: 14px">
@@ -227,7 +228,7 @@ h1,h2,h3{text-wrap:balance}
 <div style="font-size: 13px; color: var(--ink-muted)">03</div>
 <div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">implementa</div>
 <div style="font-size: 14px; color: var(--accent); font-weight: 500">/implement-issue &lt;n&gt;</div>
-<div style="font-size: 14px">tests en rojo desde los criterios, código hasta verde, autorevisión, docs</div>
+<div style="font-size: 14px">tests en rojo desde los criterios, probados con un reporte JUnit o TAP, código hasta verde, autorevisión, docs</div>
 </div>
 </li>
 
@@ -238,7 +239,7 @@ h1,h2,h3{text-wrap:balance}
 <div style="font-size: 13px; color: var(--ink-muted)">04</div>
 <div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">PR</div>
 <div style="font-size: 14px; color: var(--accent); font-weight: 500">/review-pr &lt;n&gt;</div>
-<div style="font-size: 14px">en otra sesión, más <code>/security-review</code> si toca rutas sensibles</div>
+<div style="font-size: 14px">en otra sesión, que vuelve a correr el rojo, más <code>/security-review</code> si toca rutas sensibles</div>
 </div>
 </li>
 
@@ -284,6 +285,7 @@ h1,h2,h3{text-wrap:balance}
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Mapa para agentes</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>docs/agents-map.json</code> dice qué docs revisar según lo que cambia y cuáles rutas son sensibles.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Docs testeados en CI</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Links, rutas y ADRs rotos, rutas del mapa que ya no existen, shellcheck y los <code>test-*.sh</code>: si algo se rompe, falla el check.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Verificación antes del PR</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>verify.py</code> corre lint, typecheck, tests afectados y drift de migraciones según lo que cambió.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Rojo verificado</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>red.sh</code> acepta un rojo solo con un reporte JUnit o TAP: una aserción que falla en un test nuevo. Los crashes, los timeouts, los errores de carga y los tests viejos rotos no cuentan.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">ADRs</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Plantilla y guía para registrar decisiones.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Convenciones de GitHub</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Ramas, commits, PRs, issues y labels.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Labels y auto-etiquetado</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Sync desde <code>labels.yml</code> y labeler de PRs.</p></div>
@@ -538,6 +540,7 @@ python3 /tmp/barrilete-kit/scripts/install.py &quot;Proyecto&quot; main --lang e
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">CI</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Integración continua: checks automáticos que corren en cada PR y fallan si algo se rompió.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Workflow</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Un archivo de GitHub Actions (<code>.yml</code>) que automatiza algo: correr tests, sincronizar labels, desbloquear issues.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">TDD</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Test-driven development: primero escribís el test que falla (rojo), después el código que lo hace pasar (verde).</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">JUnit y TAP</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Dos formatos estándar en los que los runners de tests informan el resultado de cada caso. <code>red.sh</code> los lee en lugar de adivinar por la salida.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Lint y typecheck</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Revisiones automáticas de estilo y de tipos que encuentran errores sin ejecutar el código.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Test de regresión</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Un test que reproduce un bug ya arreglado, para que no vuelva a aparecer.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Migración y schema</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">El schema es la estructura de la base de datos; una migración es el cambio versionado que la modifica.</dd></div>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>barrilete-kit</title>
 <meta name="description" content="Repo template for coding agents: rules, skills, docs and ADRs to take an idea from plan to PR, while you approve the plan and merge.">
@@ -93,7 +94,7 @@ h1,h2,h3{text-wrap:balance}
 <!-- NAV -->
 <header style="max-width: 1200px; margin: 0 auto; padding: 20px clamp(16px, 4vw, 40px); box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 32px">
 <a href="#top" style="display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 500; font-size: 17px">
-<svg class="bot" viewBox="0 0 160 140" width="32" height="28" role="img" aria-label="Barrilete"><rect x="0" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="96" y="12" width="64" height="8" rx="4" fill="#14161A"></rect><rect x="20" y="30" width="120" height="98" rx="40" fill="#14161A"></rect><circle class="eye" cx="62" cy="75" r="13" fill="#8FB0FF"></circle><circle class="eye" cx="98" cy="75" r="13" fill="#8FB0FF"></circle><rect x="70" y="120" width="20" height="12" rx="4" fill="#B4122B"></rect></svg>
+<svg class="bot logo" viewBox="0 0 64 72" width="26" height="30" role="img" aria-label="Barrilete"><path d="M32 3 L55 27 L32 51 L9 27 Z" fill="#14161A"></path><path d="M32 11 L47 27 L32 43 L17 27 Z" fill="#E9ECF1" opacity="0.14"></path><circle class="eye" cx="25" cy="27" r="4.5" fill="#8FB0FF"></circle><circle class="eye" cx="39" cy="27" r="4.5" fill="#8FB0FF"></circle><path d="M32 51 C27 56 37 60 32 65 C29 68 33 70 32 71" stroke="#14161A" stroke-width="2.5" fill="none" stroke-linecap="round"></path><path d="M26 54 L32 57 L26 60 Z M38 54 L32 57 L38 60 Z" fill="#B4122B"></path><path d="M27 63 L32 66 L27 69 Z M37 63 L32 66 L37 69 Z" fill="#B4122B"></path></svg>
 <span>barrilete-kit</span>
 </a>
 <nav aria-label="Main" style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 24px; font-size: 14px">
@@ -227,7 +228,7 @@ h1,h2,h3{text-wrap:balance}
 <div style="font-size: 13px; color: var(--ink-muted)">03</div>
 <div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">implements</div>
 <div style="font-size: 14px; color: var(--accent); font-weight: 500">/implement-issue &lt;n&gt;</div>
-<div style="font-size: 14px">red tests from the criteria, code until green, self-review, docs</div>
+<div style="font-size: 14px">red tests from the criteria, proven with a JUnit or TAP report, code until green, self-review, docs</div>
 </div>
 </li>
 
@@ -238,7 +239,7 @@ h1,h2,h3{text-wrap:balance}
 <div style="font-size: 13px; color: var(--ink-muted)">04</div>
 <div style="font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.1">PR</div>
 <div style="font-size: 14px; color: var(--accent); font-weight: 500">/review-pr &lt;n&gt;</div>
-<div style="font-size: 14px">in another session, plus <code>/security-review</code> if it touches sensitive paths</div>
+<div style="font-size: 14px">in another session, which re-runs the red, plus <code>/security-review</code> if it touches sensitive paths</div>
 </div>
 </li>
 
@@ -284,6 +285,7 @@ h1,h2,h3{text-wrap:balance}
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Agent map</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>docs/agents-map.json</code> says which docs to review based on what changes and which paths are sensitive.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Docs tested in CI</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Broken links, paths and ADRs, map paths that no longer exist, shellcheck and the <code>test-*.sh</code>: if something breaks, the check fails.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Verification before the PR</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>verify.py</code> runs lint, typecheck, affected tests and migration drift based on what changed.</p></div>
+<div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Verified red</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>red.sh</code> accepts a red only from a JUnit or TAP report: an assertion that fails in a new test. Crashes, timeouts, load errors and old broken tests don’t count.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">ADRs</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Template and guide to record decisions.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">GitHub conventions</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Branches, commits, PRs, issues and labels.</p></div>
 <div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-weight: 500; font-size: 16px">Labels and auto-labeling</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Sync from <code>labels.yml</code> and a PR labeler.</p></div>
@@ -539,6 +541,7 @@ python3 /tmp/barrilete-kit/scripts/install.py &quot;Project&quot; main</pre>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">CI</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Continuous integration: automatic checks that run on every PR and fail if something broke.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Workflow</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">A GitHub Actions file (<code>.yml</code>) that automates something: running tests, syncing labels, unblocking issues.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">TDD</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Test-driven development: first you write the failing test (red), then the code that makes it pass (green).</dd></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">JUnit and TAP</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Two standard formats in which test runners report the result of each case. <code>red.sh</code> reads them instead of guessing from the output.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Lint and typecheck</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">Automatic style and type checks that find errors without running the code.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Regression test</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">A test that reproduces an already-fixed bug, so it never comes back.</dd></div>
 <div style="display: flex; flex-direction: column; gap: 4px; padding: 18px 0; border-top: 2px solid var(--surface-muted)"><dt style="font-weight: 500">Migration and schema</dt><dd style="margin: 0; font-size: 15px; color: var(--ink-muted)">The schema is the structure of the database; a migration is the versioned change that modifies it.</dd></div>
