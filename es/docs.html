@@ -13,6 +13,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="/docs.css">
+<style>
+.fl{background:var(--ink);border-radius:20px;overflow:hidden;margin:0 0 20px}
+.fl-tit{padding:10px 20px;border-bottom:1px solid var(--hairline-inverse,#2a2f38);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-on-inverse,#8fb0ff)}
+.fl pre{margin:0;padding:18px 20px;overflow-x:auto;color:#c7cdd6;font-size:14px;line-height:1.6;white-space:pre}
+.fl .g{color:#7A8290}.fl .n{color:#C98500}.fl .p{color:#5B7FFF;font-weight:700}.fl .r{color:#E0525E;font-weight:700}.fl .m{color:#FFB020}
+.fl-caras{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px;margin:0 0 20px}
+.fl-caras div{background:var(--ink);color:#c7cdd6;border-radius:16px;padding:12px 14px;font-size:13px}
+.fl-caras b{display:block;font-size:16px;color:#E9ECF1;margin-bottom:4px;white-space:pre}
+</style>
 </head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
@@ -27,7 +36,7 @@
 <div class="docs">
 <aside class="indice" aria-label="En esta página">
 <div class="ceja">En esta página</div>
-<ol><li><a href="#empezar">Empezar</a></li><li><a href="#el-flujo">El flujo</a></li><li><a href="#rojo-verificado">Rojo verificado</a></li><li><a href="#skills">Skills</a></li><li><a href="#que-trae">Qué trae</a></li><li><a href="#modos">Modos</a></li><li><a href="#actualizar">Actualizar</a></li><li><a href="#actualizar-a-1-0">De 0.9 a 1.0</a></li><li><a href="#herramientas">Herramientas</a></li><li><a href="#requisitos">Requisitos</a></li><li><a href="#licencia">Licencia</a></li></ol>
+<ol><li><a href="#empezar">Empezar</a></li><li><a href="#el-flujo">El flujo</a></li><li><a href="#rojo-verificado">Rojo verificado</a></li><li><a href="#linea-del-flujo">Línea del flujo</a></li><li><a href="#skills">Skills</a></li><li><a href="#que-trae">Qué trae</a></li><li><a href="#modos">Modos</a></li><li><a href="#actualizar">Actualizar</a></li><li><a href="#actualizar-a-1-0">De 0.9 a 1.0</a></li><li><a href="#herramientas">Herramientas</a></li><li><a href="#requisitos">Requisitos</a></li><li><a href="#licencia">Licencia</a></li></ol>
 </aside>
 <main id="contenido" class="contenido">
 <div class="ceja">Documentación</div>
@@ -63,6 +72,27 @@
 <ul><li>el comando sale con error, y el reporte se creó en esta corrida;</li><li>corrió al menos un caso, y al menos uno falló por una aserción;</li><li>no hay errores, crashes, señales ni timeouts (600 s por defecto);</li><li>cada caso que falla es un test que el commit en rojo agrega o cambia. Un test viejo roto no prueba nada.</li></ul>
 <p>Cada stack declara su comando en la sección <code>red</code> de <code>docs/agents-map.json</code>: un nombre, los archivos de test que cubre (<code>when</code>), el comando con <code>{out}</code> donde va el reporte, y el formato. La <a href="https://github.com/lautioliver/barrilete-kit/blob/main/docs/guides/red-per-runner.es.md">guía por runner</a> tiene entradas listas para copiar para pytest, vitest, jest, go, cargo y bash.</p>
 <p>El PR lleva el commit en rojo y sus casos que fallan, y el check de labels exige ese bloque. El revisor vuelve a correr <code>red.sh</code> desde su propio checkout confiable en ese commit y compara los casos. Un PR que cambia la sección <code>red</code> necesita la aprobación de una persona.</p>
+<h3 id="linea-del-flujo">Línea del flujo en la terminal</h3>
+<div class="aviso aviso-note">Nuevo, no está en v1.0.0: llega en la próxima versión.</div>
+<p>¿En qué paso está esta rama? <code>scripts/agents/flow.py</code> lo dice en una línea, sea cual sea el agente. El paso sale de lo que ya existe (la rama <code>&lt;tipo&gt;/&lt;n&gt;-…</code>, su PR y el label <code>status:blocked</code>): nadie lo escribe a mano.</p>
+<div class="fl"><div class="fl-tit">Status line de Claude Code</div><pre><span class="g" data-fl-cara>( ●●)</span> <span class="g">plan</span> <span class="n">●</span> <span class="g">─</span> <span class="p">▸implement</span> <span class="g">─ review ─</span> <span class="n">● merge</span>   <span class="g">#42 · no PR yet</span>   <span class="g"><span data-fl-giro>⠹</span> working <span data-fl-tiempo>1m 12s</span></span>
+<span class="g">(^ ^)</span> <span class="g">plan</span> <span class="n">●</span> <span class="g">─ implement ─ review ─</span> <span class="p">▸</span><span class="n">● merge</span>   <span class="g">#42 · PR #50 waiting for your merge</span>
+<span class="r">(✕ ✕)</span> <span class="g">plan</span> <span class="n">●</span> <span class="g">─</span> <span class="r">✖ blocked</span> <span class="g">─ review ─</span> <span class="n">● merge</span>   <span class="g">#43 · status:blocked</span></pre></div>
+<p>Los dos ● ámbar son los nudos que quedan en manos de una persona: aprobar el plan y mergear. Lo que consulta a GitHub queda en caché por rama 30 segundos y se refresca en segundo plano, así el prompt no espera a la red. Sin <code>gh</code> o sin red muestra lo que sabe git.</p>
+<div class="tabla"><table><thead><tr><th>Qué hay</th><th>Paso</th></tr></thead><tbody><tr><td>Una rama <code>&lt;tipo&gt;/&lt;n&gt;-…</code> sin PR, o con un PR en draft</td><td>implement</td></tr><tr><td>Un PR abierto de la rama</td><td>review</td></tr><tr><td>El PR aprobado</td><td>● merge (espera tu merge)</td></tr><tr><td>El PR mergeado</td><td>retro</td></tr><tr><td>El issue con <code>status:blocked</code></td><td>✖ blocked, sea cual sea el paso</td></tr></tbody></table></div>
+<div class="tabla"><table><thead><tr><th>Dónde</th><th>Cómo</th></tr></thead><tbody><tr><td>Claude Code</td><td>status line nativa: <code>--statusline</code></td></tr><tr><td>GitHub Copilot CLI</td><td>su status line experimental: <code>--statusline</code></td></tr><tr><td>Codex CLI, o cualquier agente en una terminal</td><td>barra de tmux o prompt de la shell: <code>--format tmux</code> / <code>zsh</code> / <code>bash</code></td></tr><tr><td>Cursor, VS Code, Windsurf, cualquier ADE</td><td>un panel de terminal que se redibuja: <code>--watch</code></td></tr><tr><td>Una extensión o un tablero</td><td><code>--format json</code></td></tr></tbody></table></div>
+<p><b>En Claude Code se mueve mientras el agente trabaja.</b> Dos hooks (<code>UserPromptSubmit</code> y <code>Stop</code>) marcan el turno, y <code>refreshInterval: 1</code> (Claude Code 2.1.97 o posterior) redibuja la línea cada segundo: un spinner, el tiempo que va y, en la plantilla, la carita mirando a los costados. Los otros harness no tienen hooks equivalentes, así que ahí la línea queda quieta.</p>
+<p><b>Cómo activarla.</b> El init pregunta si activarla en Claude Code cuando corre en una terminal; <code>--flow-line</code> o <code>--no-flow-line</code> contestan de antemano. La elección queda como <code>flow_line</code> en <code>.agent-kit.json</code>, y <code>update.py</code> y <code>grow.py</code> la conservan. <code>install.py</code> la agrega sin pisar una status line que el proyecto ya tenga. Los fragmentos para zsh, bash y tmux están en la <a href="https://github.com/lautioliver/barrilete-kit/blob/main/docs/guides/flow-line.es.md">guía</a>.</p>
+<p><b>Las caritas de Barrilete.</b> En el repo de la plantilla la línea empieza con la carita de Barrilete según el paso, y <code>--watch</code> la dibuja grande. El init borra la marca, así que un proyecto muestra la línea sin caritas.</p>
+<div class="fl-caras"><div><b>(● ●)</b>working · implement, review, retro</div><div><b>(• • •)</b>planning · sin paso</div><div><b>(✕ ✕)</b>blocked</div><div><b>(^ ^)</b>PR ready, boca ámbar · ● merge</div></div>
+<div class="fl"><div class="fl-tit">--watch</div><pre>━━━┳━━     ━━┳━━━
+ ╭─┸─────────┸─╮
+ │ ┌─────────┐ │
+ │ │  ^   ^  │ │   PR ready
+ │ └─────────┘ │   claude/42-validate-qr
+ ╰─────<span class="m">▆▆▆</span>─────╯
+
+<span class="g">plan</span> <span class="n">●</span> <span class="g">─ implement ─ review ─</span> <span class="p">▸</span><span class="n">● merge</span>   <span class="g">#42 · PR #50 waiting for your merge</span></pre></div>
 <h3 id="chat">Pedíselo en el chat</h3>
 <div class="tabla"><table><thead><tr><th>Decís</th><th>Pasa</th></tr></thead><tbody><tr><td>📝 <i>abrí un issue: el QR no valida sin conexión, es urgente</i></td><td><code>create-issue</code> arma título y labels según la convención, busca duplicados, te muestra el borrador y lo crea cuando confirmás.</td></tr><tr><td>🔗 <i>la migración de pagos depende de que se cierre el issue 25</i></td><td>Registra el bloqueo nativo de GitHub ("Blocked by") y pone <code>status:blocked</code>. El workflow <code>unblock.yml</code> lo saca cuando se cierran los bloqueantes.</td></tr><tr><td>🗺️ <i>planificá la migración de cuentas</i></td><td><code>plan-feature</code> investiga el código y arma una épica con sub-issues y bloqueos, en el orden en que se pueden hacer.</td></tr><tr><td>🔎 <i>pasá esta auditoría a issues</i></td><td>Un issue por hallazgo, con el link al documento.</td></tr><tr><td>📊 <i>¿qué puedo hacer ahora?</i></td><td><code>project-status</code> lista lo que está libre por prioridad, lo bloqueado con su motivo y el avance de cada épica.</td></tr><tr><td>👥 <i>sumá a @ana al equipo, cubre pagos</i></td><td><code>/add-member</code> valida el usuario y las áreas y lo agrega a <code>.github/team.json</code>. Desde ahí, los issues de esa área nacen asignados a quien tenga menos carga.</td></tr></tbody></table></div>
 <h2 id="skills">Skills</h2>
@@ -87,6 +117,7 @@
 <h3 id="rama-base">Rama base</h3>
 <p>El segundo argumento del init define a dónde van los PRs:</p>
 <div class="tabla"><table><thead><tr><th>Comando</th><th>Flujo</th><th>Cuándo</th></tr></thead><tbody><tr><td><code>init-template.sh &quot;X&quot; main</code></td><td>rama → <code>main</code></td><td>🌱 Proyecto nuevo, sin usuarios todavía</td></tr><tr><td><code>init-template.sh &quot;X&quot; develop</code></td><td>rama → <code>develop</code> → <code>main</code></td><td>🔀 Separar integración de producción</td></tr><tr><td><code>init-template.sh &quot;X&quot; develop releases</code></td><td>rama → <code>develop</code> → <code>release/vX.Y.Z</code> → <code>main</code></td><td>🚢 Ya hay usuarios activos: cada versión se congela y se prueba en staging antes de llegar a producción</td></tr></tbody></table></div>
+<p><code>--flow-line</code> / <code>--no-flow-line</code> contestan de antemano si activar la <a href="#linea-del-flujo">línea del flujo</a> en la status line de Claude Code (sin terminal, la respuesta es no).</p>
 <h3 id="completo-o-chico">Completo o chico</h3>
 <p>Para proyectos de una o dos personas, agregá <code>--small</code>: <code>./scripts/init-template.sh &quot;X&quot; main --small</code>.</p>
 <p>El idioma de la prosa se elige con <code>--lang en|es</code> (por defecto <code>en</code>, combina con <code>--small</code> y con <code>releases</code>): con <code>es</code>, cada <code>X.md</code> se reemplaza por su <code>X.es.md</code>; en los dos casos se borran los <code>.es.md</code> que sobran, y <code>language</code> queda en <code>.agent-kit.json</code> para que <code>update.py</code> y <code>grow.py</code> reproduzcan la instalación. En la plantilla, con <code>&quot;parity&quot;: true</code> en <code>docs/agents-map.json</code> (el init lo deja en <code>false</code> en los proyectos), <code>check-docs.py</code> exige que cada <code>X.md</code> tenga su <code>X.es.md</code> con los mismos encabezados y bloques de código.</p>
@@ -127,5 +158,19 @@
 <span>Hecho en Salta por Lautaro Oliver</span>
 <nav aria-label="Pie"><a href="https://github.com/lautioliver/barrilete-kit/blob/main/README.es.md">GitHub</a><a href="https://github.com/lautioliver/barrilete-kit/releases">Versiones</a><a href="https://github.com/lautioliver/barrilete-kit/blob/main/LICENSE">Licencia MIT</a></nav>
 </footer>
+<script>
+(function(){
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var giro = '⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏', mirada = ['● ●','●● ','● ●',' ●●'], i = 0, s = 72;
+  var g = document.querySelectorAll('[data-fl-giro]'), c = document.querySelectorAll('[data-fl-cara]'), t = document.querySelectorAll('[data-fl-tiempo]');
+  if (!g.length) return;
+  setInterval(function(){
+    i++; if (i % 10 === 0) s++;
+    g.forEach(function(e){ e.textContent = giro[i % giro.length]; });
+    if (i % 10 === 0) c.forEach(function(e){ e.textContent = '(' + mirada[(i / 10) % mirada.length] + ')'; });
+    t.forEach(function(e){ e.textContent = Math.floor(s / 60) + 'm ' + (s % 60 < 10 ? '0' : '') + (s % 60) + 's'; });
+  }, 100);
+})();
+</script>
 </body>
 </html>
