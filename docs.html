@@ -13,6 +13,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
 <link rel="stylesheet" href="/docs.css">
+<style>
+.fl{background:var(--ink);border-radius:20px;overflow:hidden;margin:0 0 20px}
+.fl-tit{padding:10px 20px;border-bottom:1px solid var(--hairline-inverse,#2a2f38);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-on-inverse,#8fb0ff)}
+.fl pre{margin:0;padding:18px 20px;overflow-x:auto;color:#c7cdd6;font-size:14px;line-height:1.6;white-space:pre}
+.fl .g{color:#7A8290}.fl .n{color:#C98500}.fl .p{color:#5B7FFF;font-weight:700}.fl .r{color:#E0525E;font-weight:700}.fl .m{color:#FFB020}
+.fl-caras{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px;margin:0 0 20px}
+.fl-caras div{background:var(--ink);color:#c7cdd6;border-radius:16px;padding:12px 14px;font-size:13px}
+.fl-caras b{display:block;font-size:16px;color:#E9ECF1;margin-bottom:4px;white-space:pre}
+</style>
 </head>
 <body>
 <a class="saltar" href="#contenido">Skip to content</a>
@@ -27,7 +36,7 @@
 <div class="docs">
 <aside class="indice" aria-label="On this page">
 <div class="ceja">On this page</div>
-<ol><li><a href="#get-started">Get started</a></li><li><a href="#the-flow">The flow</a></li><li><a href="#verified-red">Verified red</a></li><li><a href="#skills">Skills</a></li><li><a href="#whats-included">What's included</a></li><li><a href="#modes">Modes</a></li><li><a href="#update">Updating</a></li><li><a href="#update-to-1-0">From 0.9 to 1.0</a></li><li><a href="#tools">Tools</a></li><li><a href="#requirements">Requirements</a></li><li><a href="#license">License</a></li></ol>
+<ol><li><a href="#get-started">Get started</a></li><li><a href="#the-flow">The flow</a></li><li><a href="#verified-red">Verified red</a></li><li><a href="#flow-line">Flow line</a></li><li><a href="#skills">Skills</a></li><li><a href="#whats-included">What's included</a></li><li><a href="#modes">Modes</a></li><li><a href="#update">Updating</a></li><li><a href="#update-to-1-0">From 0.9 to 1.0</a></li><li><a href="#tools">Tools</a></li><li><a href="#requirements">Requirements</a></li><li><a href="#license">License</a></li></ol>
 </aside>
 <main id="contenido" class="contenido">
 <div class="ceja">Documentation</div>
@@ -64,6 +73,27 @@
 <ul><li>the command exits with an error, and the report was created in this run;</li><li>at least one case ran, and at least one failed on an assertion;</li><li>there are no errors, crashes, signals or timeouts (600 s by default);</li><li>every failing case is a test that the red commit adds or changes. An old broken test proves nothing.</li></ul>
 <p>Each stack declares its command in the <code>red</code> section of <code>docs/agents-map.json</code>: a name, the test files it covers (<code>when</code>), the command with <code>{out}</code> where the report goes, and the format. The <a href="https://github.com/lautioliver/barrilete-kit/blob/main/docs/guides/red-per-runner.md">per-runner guide</a> has entries ready to copy for pytest, vitest, jest, go, cargo and bash.</p>
 <p>The PR carries the red commit and its failing cases, and the labels check requires that block. The reviewer re-runs <code>red.sh</code> from its own trusted checkout at that commit and compares the cases. A PR that changes the <code>red</code> section needs a person’s approval.</p>
+<h3 id="flow-line">Flow line in the terminal</h3>
+<div class="aviso aviso-note">New, not in v1.0.0: it ships in the next version.</div>
+<p>Which step is this branch in? <code>scripts/agents/flow.py</code> says it in one line, whatever the agent. The step comes from what already exists (the branch <code>&lt;type&gt;/&lt;n&gt;-…</code>, its PR and the <code>status:blocked</code> label): nobody writes it by hand.</p>
+<div class="fl"><div class="fl-tit">Claude Code status line</div><pre><span class="g" data-fl-cara>( ●●)</span> <span class="g">plan</span> <span class="n">●</span> <span class="g">─</span> <span class="p">▸implement</span> <span class="g">─ review ─</span> <span class="n">● merge</span>   <span class="g">#42 · no PR yet</span>   <span class="g"><span data-fl-giro>⠹</span> working <span data-fl-tiempo>1m 12s</span></span>
+<span class="g">(^ ^)</span> <span class="g">plan</span> <span class="n">●</span> <span class="g">─ implement ─ review ─</span> <span class="p">▸</span><span class="n">● merge</span>   <span class="g">#42 · PR #50 waiting for your merge</span>
+<span class="r">(✕ ✕)</span> <span class="g">plan</span> <span class="n">●</span> <span class="g">─</span> <span class="r">✖ blocked</span> <span class="g">─ review ─</span> <span class="n">● merge</span>   <span class="g">#43 · status:blocked</span></pre></div>
+<p>The two amber ● are the knots that stay in human hands: approving the plan and merging. What it asks GitHub is cached per branch for 30 seconds and refreshed in the background, so the prompt doesn't wait for the network. Without <code>gh</code> or without network it shows what git knows.</p>
+<div class="tabla"><table><thead><tr><th>What there is</th><th>Step</th></tr></thead><tbody><tr><td>A branch <code>&lt;type&gt;/&lt;n&gt;-…</code> with no PR, or with a draft PR</td><td>implement</td></tr><tr><td>An open PR for the branch</td><td>review</td></tr><tr><td>The PR approved</td><td>● merge (waiting for your merge)</td></tr><tr><td>The PR merged</td><td>retro</td></tr><tr><td>The issue with <code>status:blocked</code></td><td>✖ blocked, whatever the step</td></tr></tbody></table></div>
+<div class="tabla"><table><thead><tr><th>Where</th><th>How</th></tr></thead><tbody><tr><td>Claude Code</td><td>native status line: <code>--statusline</code></td></tr><tr><td>GitHub Copilot CLI</td><td>its experimental status line: <code>--statusline</code></td></tr><tr><td>Codex CLI, or any agent in a terminal</td><td>tmux bar or shell prompt: <code>--format tmux</code> / <code>zsh</code> / <code>bash</code></td></tr><tr><td>Cursor, VS Code, Windsurf, any ADE</td><td>a terminal pane that redraws itself: <code>--watch</code></td></tr><tr><td>An extension or a dashboard</td><td><code>--format json</code></td></tr></tbody></table></div>
+<p><b>In Claude Code it moves while the agent works.</b> Two hooks (<code>UserPromptSubmit</code> and <code>Stop</code>) mark the turn, and <code>refreshInterval: 1</code> (Claude Code 2.1.97 or newer) redraws the line every second: a spinner, the elapsed time and, in the template, the face looking around. The other harnesses have no equivalent hooks, so there the line stays still.</p>
+<p><b>Turning it on.</b> The init asks whether to turn it on in Claude Code when it runs in a terminal; <code>--flow-line</code> or <code>--no-flow-line</code> answer in advance. The choice is recorded as <code>flow_line</code> in <code>.agent-kit.json</code>, and <code>update.py</code> and <code>grow.py</code> keep it. <code>install.py</code> adds it without overwriting a status line the project already has. The snippets for zsh, bash and tmux are in the <a href="https://github.com/lautioliver/barrilete-kit/blob/main/docs/guides/flow-line.md">guide</a>.</p>
+<p><b>Barrilete's faces.</b> In the template repo the line starts with Barrilete's face for the step, and <code>--watch</code> draws it big. The init deletes the brand, so a project shows the line without faces.</p>
+<div class="fl-caras"><div><b>(● ●)</b>working · implement, review, retro</div><div><b>(• • •)</b>planning · no step</div><div><b>(✕ ✕)</b>blocked</div><div><b>(^ ^)</b>PR ready, amber mouth · ● merge</div></div>
+<div class="fl"><div class="fl-tit">--watch</div><pre>━━━┳━━     ━━┳━━━
+ ╭─┸─────────┸─╮
+ │ ┌─────────┐ │
+ │ │  ^   ^  │ │   PR ready
+ │ └─────────┘ │   claude/42-validate-qr
+ ╰─────<span class="m">▆▆▆</span>─────╯
+
+<span class="g">plan</span> <span class="n">●</span> <span class="g">─ implement ─ review ─</span> <span class="p">▸</span><span class="n">● merge</span>   <span class="g">#42 · PR #50 waiting for your merge</span></pre></div>
 <h3 id="chat">Just ask in the chat</h3>
 <div class="tabla"><table><thead><tr><th>You say</th><th>What happens</th></tr></thead><tbody><tr><td>📝 <i>open an issue: the QR code doesn't validate offline, it's urgent</i></td><td><code>create-issue</code> writes the title and labels following the convention, looks for duplicates, shows you the draft and creates it once you confirm.</td></tr><tr><td>🔗 <i>the payments migration depends on issue 25 being closed</i></td><td>Records GitHub's native dependency ("Blocked by") and adds <code>status:blocked</code>. The <code>unblock.yml</code> workflow removes it once every blocker is closed.</td></tr><tr><td>🗺️ <i>plan the accounts migration</i></td><td><code>plan-feature</code> researches the code and builds an epic with sub-issues and blockers, in the order they can be done.</td></tr><tr><td>🔎 <i>turn this audit into issues</i></td><td>One issue per finding, linking back to the document.</td></tr><tr><td>📊 <i>what can I work on now?</i></td><td><code>project-status</code> lists what's free by priority, what's blocked and why, and the progress of each epic.</td></tr><tr><td>👥 <i>add @ana to the team, she covers payments</i></td><td><code>/add-member</code> checks the user and the areas and adds them to <code>.github/team.json</code>. From then on, issues in that area are born assigned to whoever has the least load.</td></tr></tbody></table></div>
 <h2 id="skills">Skills</h2>
@@ -88,6 +118,7 @@
 <h3 id="base-branch">Base branch</h3>
 <p>The init's second argument sets where PRs go:</p>
 <div class="tabla"><table><thead><tr><th>Command</th><th>Flow</th><th>When</th></tr></thead><tbody><tr><td><code>init-template.sh &quot;X&quot; main</code></td><td>branch → <code>main</code></td><td>🌱 New project, no users yet</td></tr><tr><td><code>init-template.sh &quot;X&quot; develop</code></td><td>branch → <code>develop</code> → <code>main</code></td><td>🔀 Keep integration apart from production</td></tr><tr><td><code>init-template.sh &quot;X&quot; develop releases</code></td><td>branch → <code>develop</code> → <code>release/vX.Y.Z</code> → <code>main</code></td><td>🚢 Live users: each version is frozen and tested on staging before reaching production</td></tr></tbody></table></div>
+<p><code>--flow-line</code> / <code>--no-flow-line</code> answer in advance whether to turn on the <a href="#flow-line">flow line</a> in Claude Code's status line (without a terminal, the answer is no).</p>
 <h3 id="full-or-small">Full or small</h3>
 <p>For one- or two-person projects, add <code>--small</code>: <code>./scripts/init-template.sh &quot;X&quot; main --small</code>.</p>
 <p>The prose language is chosen with <code>--lang en|es</code> (default <code>en</code>; it combines with <code>--small</code> and <code>releases</code>): with <code>es</code>, each <code>X.md</code> is replaced by its <code>X.es.md</code> sibling; either way the leftover <code>.es.md</code> files are deleted, and <code>language</code> is recorded in <code>.agent-kit.json</code> so <code>update.py</code> and <code>grow.py</code> reproduce the install. In the template, with <code>&quot;parity&quot;: true</code> in <code>docs/agents-map.json</code> (the init leaves it <code>false</code> in projects), <code>check-docs.py</code> requires every <code>X.md</code> to have its <code>X.es.md</code> with the same headings and code blocks.</p>
@@ -128,5 +159,19 @@
 <span>Made in Salta by Lautaro Oliver</span>
 <nav aria-label="Footer"><a href="https://github.com/lautioliver/barrilete-kit/blob/main/README.md">GitHub</a><a href="https://github.com/lautioliver/barrilete-kit/releases">Releases</a><a href="https://github.com/lautioliver/barrilete-kit/blob/main/LICENSE">MIT License</a></nav>
 </footer>
+<script>
+(function(){
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var giro = '⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏', mirada = ['● ●','●● ','● ●',' ●●'], i = 0, s = 72;
+  var g = document.querySelectorAll('[data-fl-giro]'), c = document.querySelectorAll('[data-fl-cara]'), t = document.querySelectorAll('[data-fl-tiempo]');
+  if (!g.length) return;
+  setInterval(function(){
+    i++; if (i % 10 === 0) s++;
+    g.forEach(function(e){ e.textContent = giro[i % giro.length]; });
+    if (i % 10 === 0) c.forEach(function(e){ e.textContent = '(' + mirada[(i / 10) % mirada.length] + ')'; });
+    t.forEach(function(e){ e.textContent = Math.floor(s / 60) + 'm ' + (s % 60 < 10 ? '0' : '') + (s % 60) + 's'; });
+  }, 100);
+})();
+</script>
 </body>
 </html>
