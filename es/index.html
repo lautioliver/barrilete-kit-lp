@@ -111,6 +111,7 @@ h1,h2,h3{text-wrap:balance}
 <a href="#skills" style="color: var(--ink); text-decoration: none; padding: 10px 0">Skills</a>
 <a href="#equipo" style="color: var(--ink); text-decoration: none; padding: 10px 0">Equipo</a>
 <a href="#modos" style="color: var(--ink); text-decoration: none; padding: 10px 0">Modos</a>
+<a href="#bk-shell" style="color: var(--ink); text-decoration: none; padding: 10px 0">bk shell</a>
 <a href="#empezar" style="color: var(--ink); text-decoration: none; padding: 10px 0">Empezar</a>
 <a href="#glosario" style="color: var(--ink); text-decoration: none; padding: 10px 0">Glosario</a>
 <a href="/es/docs.html" style="color: var(--ink); text-decoration: none; padding: 10px 0">Documentación</a>
@@ -403,6 +404,39 @@ h1,h2,h3{text-wrap:balance}
 <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; font-size: 16px">
 <span style="font-family: var(--font-display); font-weight: 600; font-size: 22px">¿El proyecto creció?</span>
 <span><code>python3 scripts/grow.py</code> lo pasa al modo completo (con <code>--releases</code> si la base es develop y querés ese flujo). Lo que nunca tocaste se reemplaza; lo que modificaste queda intacto y la versión completa espera en <code>.agent-kit/pending/</code>. No commitea: revisás el diff y abrís un PR.</span>
+</div>
+</section>
+
+<!-- BK SHELL -->
+<section id="bk-shell" style="max-width: 1200px; margin: 0 auto; padding: clamp(72px, 10vw, 120px) clamp(16px, 4vw, 40px) 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-muted); font-weight: 500">bk shell · nuevo</div>
+<h2 class="reveal" style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(32px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Todos tus agentes en una terminal.</h2>
+<p style="margin: 0; font-size: 16px; max-width: 680px">bk shell es el workspace de Barrilete Kit para la terminal: el chat con el orquestador, los agentes trabajando en vivo al costado, tus sesiones de Claude Code a un atajo y todo lo que quedó sin commitear. Sobre tmux, sin apps nuevas.</p>
+</div>
+<div class="reveal" style="background: var(--ink); border-radius: 20px; padding: 20px 24px; overflow-x: auto"><pre style="margin: 0; font-family: var(--font-mono); font-size: 13px; line-height: 1.55; color: var(--surface-muted); white-space: pre"><span style="color: var(--accent-on-inverse)">┌─┬────────────────────────────────────┬────────────────────┐
+│1│ ✿ mi-proyecto · main · opus        │ ∗ 2 activos        │
+│●│                                    │ ▎ ✿ Status         │
+│2│   chat con el orquestador          │ ▎ ∗ Agents         │
+│○│   (Claude Code)                    │ ▎ ● i42 sonnet 12m │
+│─│                                    │ ▎ ◆ Checkpoints    │
+│1│   le pedís cosas a los agentes y   │ ▎ ✎ Changes        │
+│●│   los ves trabajar al costado      │                    │
+└─┴────────────────────────────────────┴────────────────────┘</span></pre></div>
+<div class="reveal" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px"><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: var(--ink-muted)">01</div><div style="font-weight: 500; font-size: 16px">Un workspace por proyecto</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>bk</code> abre el chat, el riel de agentes y la tira de sesiones. <code>bk open</code> lleva otro proyecto a otro escritorio.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: var(--ink-muted)">02</div><div style="font-weight: 500; font-size: 16px">Agentes en paralelo</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>bk run</code>, <code>bk review</code> y <code>bk fix</code> lanzan los agentes del kit, cada uno en su worktree y con el modelo de su rol.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: var(--ink-muted)">03</div><div style="font-weight: 500; font-size: 16px">Hablales sin entrar</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>bk say</code> les responde, <code>bk peek</code> los mira y <code>alt+shift+N</code> trae un agente al lugar del chat.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: var(--ink-muted)">04</div><div style="font-weight: 500; font-size: 16px">Estado de verdad</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Trabajando, te espera, en segundo plano o listo: el riel sabe si un agente sigue con comandos o subagentes corriendo.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: var(--ink-muted)">05</div><div style="font-weight: 500; font-size: 16px">Overlays</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)"><code>alt+a</code> agentes · <code>alt+g</code> cambios y diff · <code>alt+k</code> comandos · <code>alt+s</code> sesiones · <code>alt+u</code> stats.</p></div><div class="card" style="background: var(--surface-raised); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 13px; color: var(--ink-muted)">06</div><div style="font-weight: 500; font-size: 16px">Stats</div><p style="margin: 0; font-size: 15px; color: var(--ink-muted)">Mapa de actividad, modelo favorito, rachas y costo equivalente en API de todo tu historial.</p></div></div>
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 760px">
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1.2">Probalo</h3>
+<div style="background: var(--ink); border-radius: 20px; overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 8px 8px 20px; border-bottom: 1px solid var(--hairline-inverse)">
+<span style="font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-on-inverse)">bash</span>
+<button type="button" data-copy="bkshell" aria-label="Copiar el comando de instalación de bk shell" style="min-height: 44px; padding: 0 16px; background: transparent; color: var(--surface-muted); border: 1px solid var(--ink-muted); border-radius: 12px; font-family: var(--font-mono); font-size: 13px; cursor: pointer">Copiar</button>
+</div>
+<div style="overflow-x: auto; padding: 20px">
+<pre style="font-family: var(--font-mono); font-size: 14px; line-height: 1.7; color: var(--surface-muted); white-space: pre">curl -fsSL https://raw.githubusercontent.com/lautioliver/bk-shell/main/install.sh | bash</pre>
+</div>
+</div>
+<p style="margin: 0; font-size: 15px">Después, en tu proyecto: <code>bk</code> abre el workspace y <code>bk run 42</code> lanza un implementer sobre el issue #42.</p>
+<p style="margin: 0; font-size: 15px">Pregunta antes de tocar tu <code>tmux.conf</code> o los hooks de Claude Code. Necesita tmux 3.3+, <code>python3</code>, <code>jq</code> y <a href="https://claude.com/claude-code" style="color: var(--ink)">Claude Code</a>. Código y guía en <a href="https://github.com/lautioliver/bk-shell" style="color: var(--ink)">github.com/lautioliver/bk-shell</a>.</p>
 </div>
 </section>
 
